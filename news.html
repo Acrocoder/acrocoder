@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html lang="en">    
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trending News - Rubavu Students Hub</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #6366f1;
+            --secondary-color: #ec4899;
+            --accent-color: #10b981;
+            --dark-bg: #0f172a;
+            --dark-card: #1e293b;
+            --dark-text: #e2e8f0;
+            --light-bg: #f8fafc;
+            --light-card: #ffffff;
+            --light-text: #1e293b;
+            --gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: var(--light-bg);
+            color: var(--light-text);
+            transition: var(--transition);
+            overflow-x: hidden;
+        }
+
+        body.dark-mode {
+            background: var(--dark-bg);
+            color: var(--dark-text);
+        }
+
+        body.dark-mode .card {
+            background: var(--dark-card);
+            border-color: #334155;
+        }
+
+        body.dark-mode .nav-container {
+            background: var(--dark-card);
+        }
+
+        /* Navigation */
+        .nav-container {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: var(--light-card);
+            box-shadow: var(--shadow);
+            z-index: 1000;
+            transition: var(--transition);
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 5%;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+            align-items: center;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: inherit;
+            font-weight: 500;
+            transition: var(--transition);
+            position: relative;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary-color);
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--primary-color);
+            transition: width 0.3s;
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        .theme-toggle {
+            background: var(--gradient);
+            border: none;
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: var(--transition);
+        }
+
+        .theme-toggle:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 15px rgba(99, 102, 241, 0.3);
+        }
+
+        /* Page Header */
+        .page-header {
+            margin-top: 80px;
+            padding: 3rem 5%;
+            background: var(--gradient);
+            color: white;
+            text-align: center;
+        }
+
+        .page-header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        /* Main Container */
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem 5%;
+        }
+
+        /* News Filter */
+        .news-filter {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .filter-btn {
+            padding: 0.5rem 1.2rem;
+            border: 2px solid var(--primary-color);
+            background: transparent;
+            color: var(--primary-color);
+            border-radius: 25px;
+            cursor: pointer;
+            transition: var(--transition);
+            font-weight: 500;
+        }
+
+        .filter-btn:hover,
+        .filter-btn.active {
+            background: var(--primary-color);
+            color: white;
+        }
+
+        /* News Grid */
+        .news-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+        }
+
+        .news-card {
+            background: var(--light-card);
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+            position: relative;
+        }
+
+        body.dark-mode .news-card {
+            background: var(--dark-card);
+        }
+
+        .news-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+        }
+
+        .news-card img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+
+        .news-badge {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: var(--secondary-color);
+            color: white;
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: bold;
+        }
+
+        .news-content {
+            padding: 1.5rem;
+        }
+
+        .school-tag {
+            display: inline-block;
+            background: var(--primary-color);
+            color: white;
+            padding: 0.2rem 0.6rem;
+            border-radius: 5px;
+            font-size: 0.85rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .news-content h3 {
+            margin-bottom: 0.5rem;
+            color: var(--light-text);
+        }
+
+        body.dark-mode .news-content h3 {
+            color: var(--dark-text);
+        }
+
+        .news-content p {
+            color: #64748b;
+            margin-bottom: 1rem;
+            line-height: 1.6;
+        }
+
+        .news-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.9rem;
+            color: #64748b;
+        }
+
+        .read-more {
+            color: var(--primary-color);
+            text-decoration: none;
+            font-weight: 500;
+            transition: var(--transition);
+        }
+
+        .read-more:hover {
+            text-decoration: underline;
+        }
+
+        /* Footer */
+        footer {
+            background: var(--gradient);
+            color: white;
+            text-align: center;
+            padding: 2rem 5%;
+            margin-top: 3rem;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+
+            .page-header h1 {
+                font-size: 2rem;
+            }
+
+            .news-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <div class="nav-container">
+        <nav>
+            <div class="logo">
+                <i class="fas fa-graduation-cap"></i>
+                Rubavu Students Hub
+            </div>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="news.html">News</a></li>
+                <li><a href="gallery.html">Gallery</a></li>
+                <li><a href="stars.html">Stars</a></li>
+                <li><a href="academics.html">Academics</a></li>
+                <li><a href="talents.html">Talents</a></li>
+                <li><a href="events.html">Events</a></li>
+                <li><a href="contact.html">Contact</a></li>
+                <li><button class="theme-toggle" onclick="toggleTheme()">
+                    <i class="fas fa-moon" id="themeIcon"></i>
+                </button></li>
+            </ul>
+        </nav>
+    </div>
+
+    <!-- Page Header -->
+    <section class="page-header">
+        <h1>Trending School News</h1>
+        <p>Stay updated with the latest happenings across all schools</p>
+    </section>
+
+    <!-- Main Container -->
+    <div class="container">
+        <!-- News Filter -->
+        <div class="news-filter">
+            <button class="filter-btn active" onclick="filterNews('all')">All News</button>
+            <button class="filter-btn" onclick="filterNews('academics')">Academics</button>
+            <button class="filter-btn" onclick="filterNews('sports')">Sports</button>
+            <button class="filter-btn" onclick="filterNews('events')">Events</button>
+            <button class="filter-btn" onclick="filterNews('achievements')">Achievements</button>
+        </div>
+
+        <!-- News Grid -->
+        <div class="news-grid">
+            <div class="news-card" data-category="achievements">
+                <span class="news-badge">TRENDING</span>
+                <img src="https://picsum.photos/seed/news1/400/200" alt="News">
+                <div class="news-content">
+                    <span class="school-tag">G.S St. Joseph</span>
+                    <h3>Science Exhibition Success</h3>
+                    <p>Students from G.S St. Joseph showcased innovative projects at the annual science fair, winning first place in the renewable energy category with their solar-powered water purification system.</p>
+                    <div class="news-meta">
+                        <span>2 hours ago</span>
+                        <a href="#" class="read-more">Read More →</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="news-card" data-category="sports">
+                <img src="https://picsum.photos/seed/news2/400/200" alt="News">
+                <div class="news-content">
+                    <span class="school-tag">E.S.T. Rubavu</span>
+                    <h3>Sports Championship Victory</h3>
+                    <p>The basketball team from E.S.T. Rubavu brings home the district championship trophy after an intense final match against APAPER School, with a final score of 78-72.</p>
+                    <div class="news-meta">
+                        <span>5 hours ago</span>
+                        <a href="#" class="read-more">Read More →</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="news-card" data-category="events">
+                <img src="https://picsum.photos/seed/news3/400/200" alt="News">
+                <div class="news-content">
+                    <span class="school-tag">APAPER School</span>
+                    <h3>Cultural Festival Highlights</h3>
+                    <p>Amazing performances at the inter-school cultural competition featuring traditional dances, music, and drama from all 20 schools in Rubavu district.</p>
+                    <div class="news-meta">
+                        <span>1 day ago</span>
+                        <a href="#" class="read-more">Read More →</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="news-card" data-category="academics">
+                <img src="https://picsum.photos/seed/news4/400/200" alt="News">
+                <div class="news-content">
+                    <span class="school-tag">College St. Andre</span>
+                    <h3>National Exam Results Out</h3>
+                    <p>College St. Andre celebrates exceptional performance in national exams with 95% pass rate and 12 students scoring above 90% in all subjects.</p>
+                    <div class="news-meta">
+                        <span>2 days ago</span>
+                        <a href="#" class="read-more">Read More →</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="news-card" data-category="achievements">
+                <img src="https://picsum.photos/seed/news5/400/200" alt="News">
+                <div class="news-content">
+                    <span class="school-tag">Lycée de Rubavu</span>
+                    <h3>Robotics Club Wins Regional Competition</h3>
+                    <p>The robotics team from Lycée de Rubavu secured first place in the regional robotics competition with their innovative waste management robot.</p>
+                    <div class="news-meta">
+                        <span>3 days ago</span>
+                        <a href="#" class="read-more">Read More →</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="news-card" data-category="events">
+                <img src="https://picsum.photos/seed/news6/400/200" alt="News">
+                <div class="news-content">
+                    <span class="school-tag">E.T.D. Kivumu</span>
+                    <h3>Environmental Awareness Campaign</h3>
+                    <p>Students launch a district-wide environmental awareness campaign focusing on plastic reduction and tree planting initiatives across Rubavu.</p>
+                    <div class="news-meta">
+                        <span>4 days ago</span>
+                        <a href="#" class="read-more">Read More →</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <h3>Rubavu Students Hub</h3>
+        <p>Connecting 20 Schools, Empowering Thousands of Students</p>
+        <p>&copy; 2024 Rubavu Students Hub. All rights reserved.</p>
+    </footer>
+
+    <script>
+        // Theme Toggle
+        function toggleTheme() {
+            const body = document.body;
+            const themeIcon = document.getElementById('themeIcon');
+            
+            body.classList.toggle('dark-mode');
+            
+            if (body.classList.contains('dark-mode')) {
+                themeIcon.classList.remove('fa-moon');
+                themeIcon.classList.add('fa-sun');
+                localStorage.setItem('theme', 'dark');
+            } else {
+                themeIcon.classList.remove('fa-sun');
+                themeIcon.classList.add('fa-moon');
+                localStorage.setItem('theme', 'light');
+            }
+        }
+
+        // Load saved theme
+        window.addEventListener('DOMContentLoaded', () => {
+            const savedTheme = localStorage.getItem('theme');
+            if (savedTheme === 'dark') {
+                document.body.classList.add('dark-mode');
+                document.getElementById('themeIcon').classList.remove('fa-moon');
+                document.getElementById('themeIcon').classList.add('fa-sun');
+            }
+        });
+
+        // Filter News
+        function filterNews(category) {
+            const cards = document.querySelectorAll('.news-card');
+            const buttons = document.querySelectorAll('.filter-btn');
+            
+            buttons.forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+            
+            cards.forEach(card => {
+                if (category === 'all' || card.dataset.category === category) {
+                    card.style.display = 'block';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        }
+    </script>
+</body>
+</html>

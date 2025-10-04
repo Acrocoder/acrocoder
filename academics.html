@@ -1,0 +1,666 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Academic Performance - Rubavu Students Hub</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #6366f1;
+            --secondary-color: #ec4899;
+            --accent-color: #10b981;
+            --dark-bg: #0f172a;
+            --dark-card: #1e293b;
+            --dark-text: #e2e8f0;
+            --light-bg: #f8fafc;
+            --light-card: #ffffff;
+            --light-text: #1e293b;
+            --gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: var(--light-bg);
+            color: var(--light-text);
+            transition: var(--transition);
+            overflow-x: hidden;
+        }
+
+        body.dark-mode {
+            background: var(--dark-bg);
+            color: var(--dark-text);
+        }
+
+        body.dark-mode .card {
+            background: var(--dark-card);
+            border-color: #334155;
+        }
+
+        body.dark-mode .nav-container {
+            background: var(--dark-card);
+        }
+
+        /* Navigation */
+        .nav-container {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: var(--light-card);
+            box-shadow: var(--shadow);
+            z-index: 1000;
+            transition: var(--transition);
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 5%;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+            align-items: center;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: inherit;
+            font-weight: 500;
+            transition: var(--transition);
+            position: relative;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary-color);
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--primary-color);
+            transition: width 0.3s;
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        .theme-toggle {
+            background: var(--gradient);
+            border: none;
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: var(--transition);
+        }
+
+        .theme-toggle:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 15px rgba(99, 102, 241, 0.3);
+        }
+
+        /* Page Header */
+        .page-header {
+            margin-top: 80px;
+            padding: 3rem 5%;
+            background: var(--gradient);
+            color: white;
+            text-align: center;
+        }
+
+        .page-header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        /* Main Container */
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem 5%;
+        }
+
+        /* Filter Section */
+        .filter-section {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .filter-btn {
+            padding: 0.5rem 1.2rem;
+            border: 2px solid var(--primary-color);
+            background: transparent;
+            color: var(--primary-color);
+            border-radius: 25px;
+            cursor: pointer;
+            transition: var(--transition);
+            font-weight: 500;
+        }
+
+        .filter-btn:hover,
+        .filter-btn.active {
+            background: var(--primary-color);
+            color: white;
+        }
+
+        /* Top Students Grid */
+        .top-students-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .student-card {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+            padding: 2rem;
+            border-radius: 15px;
+            background: var(--light-card);
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+        }
+
+        body.dark-mode .student-card {
+            background: var(--dark-card);
+        }
+
+        .student-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+        }
+
+        .student-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 5px;
+            height: 100%;
+            background: var(--gradient);
+        }
+
+        .student-rank {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: var(--primary-color);
+            min-width: 60px;
+            text-align: center;
+            position: relative;
+        }
+
+        .rank-1 { color: gold; text-shadow: 0 0 10px rgba(255, 215, 0, 0.5); }
+        .rank-2 { color: silver; text-shadow: 0 0 10px rgba(192, 192, 192, 0.5); }
+        .rank-3 { color: #cd7f32; text-shadow: 0 0 10px rgba(205, 127, 50, 0.5); }
+
+        .student-avatar {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid var(--primary-color);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .student-info {
+            flex: 1;
+        }
+
+        .student-info h3 {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+            color: var(--light-text);
+        }
+
+        body.dark-mode .student-info h3 {
+            color: var(--dark-text);
+        }
+
+        .student-school {
+            color: #64748b;
+            font-size: 1rem;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .student-score {
+            font-weight: bold;
+            color: var(--accent-color);
+            font-size: 1.1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .student-subjects {
+            margin-top: 0.5rem;
+            font-size: 0.9rem;
+            color: #64748b;
+        }
+
+        /* School Rankings */
+        .school-rankings {
+            background: var(--light-card);
+            border-radius: 15px;
+            padding: 2rem;
+            margin-top: 3rem;
+            box-shadow: var(--shadow);
+        }
+
+        body.dark-mode .school-rankings {
+            background: var(--dark-card);
+        }
+
+        .school-rankings h2 {
+            text-align: center;
+            margin-bottom: 2rem;
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .ranking-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .ranking-table th,
+        .ranking-table td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        body.dark-mode .ranking-table th,
+        body.dark-mode .ranking-table td {
+            border-bottom-color: #334155;
+        }
+
+        .ranking-table th {
+            background: var(--gradient);
+            color: white;
+            font-weight: 600;
+        }
+
+        .ranking-table tr:hover {
+            background: rgba(99, 102, 241, 0.05);
+        }
+
+        .school-badge {
+            display: inline-block;
+            padding: 0.3rem 0.8rem;
+            background: var(--primary-color);
+            color: white;
+            border-radius: 20px;
+            font-size: 0.85rem;
+        }
+
+        /* Achievement Badges */
+        .achievement-badges {
+            display: flex;
+            gap: 0.5rem;
+            margin-top: 0.5rem;
+        }
+
+        .badge {
+            padding: 0.2rem 0.5rem;
+            background: var(--secondary-color);
+            color: white;
+            border-radius: 5px;
+            font-size: 0.75rem;
+            font-weight: 500;
+        }
+
+        /* Footer */
+        footer {
+            background: var(--gradient);
+            color: white;
+            text-align: center;
+            padding: 2rem 5%;
+            margin-top: 3rem;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+
+            .page-header h1 {
+                font-size: 2rem;
+            }
+
+            .top-students-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .student-card {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .ranking-table {
+                font-size: 0.9rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <div class="nav-container">
+        <nav>
+            <div class="logo">
+                <i class="fas fa-graduation-cap"></i>
+                Rubavu Students Hub
+            </div>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="news.html">News</a></li>
+                <li><a href="gallery.html">Gallery</a></li>
+                <li><a href="stars.html">Stars</a></li>
+                <li><a href="academics.html">Academics</a></li>
+                <li><a href="talents.html">Talents</a></li>
+                <li><a href="events.html">Events</a></li>
+                <li><a href="contact.html">Contact</a></li>
+                <li><button class="theme-toggle" onclick="toggleTheme()">
+                    <i class="fas fa-moon" id="themeIcon"></i>
+                </button></li>
+            </ul>
+        </nav>
+    </div>
+
+    <!-- Page Header -->
+    <section class="page-header">
+        <h1>Top Academic Performers</h1>
+        <p>Students with the highest marks across all schools</p>
+    </section>
+
+    <!-- Main Container -->
+    <div class="container">
+        <!-- Filter Section -->
+        <div class="filter-section">
+            <button class="filter-btn active" onclick="filterStudents('all')">All Subjects</button>
+            <button class="filter-btn" onclick="filterStudents('sciences')">Sciences</button>
+            <button class="filter-btn" onclick="filterStudents('mathematics')">Mathematics</button>
+            <button class="filter-btn" onclick="filterStudents('languages')">Languages</button>
+            <button class="filter-btn" onclick="filterStudents('overall')">Overall</button>
+        </div>
+
+        <!-- Top Students Grid -->
+        <div class="top-students-grid">
+            <div class="student-card" data-category="overall">
+                <div class="student-rank rank-1">1</div>
+                <img src="https://picsum.photos/seed/student1/100/100" alt="Student" class="student-avatar">
+                <div class="student-info">
+                    <h3>Marie Uwimana</h3>
+                    <p class="student-school">
+                        <i class="fas fa-school"></i>
+                        G.S St. Joseph
+                    </p>
+                    <p class="student-score">
+                        <i class="fas fa-chart-line"></i>
+                        Average: 98.5%
+                    </p>
+                    <p class="student-subjects">Mathematics: 99%, Physics: 98%, Chemistry: 99%</p>
+                    <div class="achievement-badges">
+                        <span class="badge">Top Scorer</span>
+                        <span class="badge">Perfect Math</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="student-card" data-category="sciences">
+                <div class="student-rank rank-2">2</div>
+                <img src="https://picsum.photos/seed/student2/100/100" alt="Student" class="student-avatar">
+                <div class="student-info">
+                    <h3>John Mugisha</h3>
+                    <p class="student-school">
+                        <i class="fas fa-school"></i>
+                        E.S.T. Rubavu
+                    </p>
+                    <p class="student-score">
+                        <i class="fas fa-chart-line"></i>
+                        Average: 97.2%
+                    </p>
+                    <p class="student-subjects">Biology: 98%, Chemistry: 97%, Physics: 97%</p>
+                    <div class="achievement-badges">
+                        <span class="badge">Science Star</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="student-card" data-category="languages">
+                <div class="student-rank rank-3">3</div>
+                <img src="https://picsum.photos/seed/student3/100/100" alt="Student" class="student-avatar">
+                <div class="student-info">
+                    <h3>Grace Mukamana</h3>
+                    <p class="student-school">
+                        <i class="fas fa-school"></i>
+                        APAPER School
+                    </p>
+                    <p class="student-score">
+                        <i class="fas fa-chart-line"></i>
+                        Average: 96.8%
+                    </p>
+                    <p class="student-subjects">English: 98%, French: 97%, Kinyarwanda: 96%</p>
+                    <div class="achievement-badges">
+                        <span class="badge">Language Expert</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="student-card" data-category="mathematics">
+                <div class="student-rank">4</div>
+                <img src="https://picsum.photos/seed/student4/100/100" alt="Student" class="student-avatar">
+                <div class="student-info">
+                    <h3>Eric Niyonzima</h3>
+                    <p class="student-school">
+                        <i class="fas fa-school"></i>
+                        College St. Andre
+                    </p>
+                    <p class="student-score">
+                        <i class="fas fa-chart-line"></i>
+                        Average: 95.5%
+                    </p>
+                    <p class="student-subjects">Mathematics: 98%, Further Math: 95%, Physics: 94%</p>
+                    <div class="achievement-badges">
+                        <span class="badge">Math Genius</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="student-card" data-category="overall">
+                <div class="student-rank">5</div>
+                <img src="https://picsum.photos/seed/student5/100/100" alt="Student" class="student-avatar">
+                <div class="student-info">
+                    <h3>Alice Uwase</h3>
+                    <p class="student-school">
+                        <i class="fas fa-school"></i>
+                        Lycée de Rubavu
+                    </p>
+                    <p class="student-score">
+                        <i class="fas fa-chart-line"></i>
+                        Average: 94.3%
+                    </p>
+                    <p class="student-subjects">History: 96%, Geography: 94%, Economics: 93%</p>
+                    <div class="achievement-badges">
+                        <span class="badge">History Topper</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="student-card" data-category="sciences">
+                <div class="student-rank">6</div>
+                <img src="https://picsum.photos/seed/student6/100/100" alt="Student" class="student-avatar">
+                <div class="student-info">
+                    <h3>Peter Mugabo</h3>
+                    <p class="student-school">
+                        <i class="fas fa-school"></i>
+                        G.S St. Joseph
+                    </p>
+                    <p class="student-score">
+                        <i class="fas fa-chart-line"></i>
+                        Average: 93.7%
+                    </p>
+                    <p class="student-subjects">Computer Science: 95%, Physics: 94%, Math: 92%</p>
+                    <div class="achievement-badges">
+                        <span class="badge">Tech Whiz</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- School Rankings -->
+        <div class="school-rankings">
+            <h2><i class="fas fa-trophy"></i> School Performance Rankings</h2>
+            <table class="ranking-table">
+                <thead>
+                    <tr>
+                        <th>Rank</th>
+                        <th>School Name</th>
+                        <th>Top Student</th>
+                        <th>School Average</th>
+                        <th>Pass Rate</th>
+                        <th>Contact</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><span class="school-badge">1</span></td>
+                        <td>G.S St. Joseph</td>
+                        <td>Marie Uwimana</td>
+                        <td>87.5%</td>
+                        <td>95%</td>
+                        <td><a href="tel:+250788123456">+250 788 123 456</a></td>
+                    </tr>
+                    <tr>
+                        <td><span class="school-badge">2</span></td>
+                        <td>E.S.T. Rubavu</td>
+                        <td>John Mugisha</td>
+                        <td>85.2%</td>
+                        <td>92%</td>
+                        <td><a href="tel:+250788234567">+250 788 234 567</a></td>
+                    </tr>
+                    <tr>
+                        <td><span class="school-badge">3</span></td>
+                        <td>APAPER School</td>
+                        <td>Grace Mukamana</td>
+                        <td>83.8%</td>
+                        <td>90%</td>
+                        <td><a href="tel:+250788345678">+250 788 345 678</a></td>
+                    </tr>
+                    <tr>
+                        <td><span class="school-badge">4</span></td>
+                        <td>College St. Andre</td>
+                        <td>Eric Niyonzima</td>
+                        <td>81.5%</td>
+                        <td>88%</td>
+                        <td><a href="tel:+250788456789">+250 788 456 789</a></td>
+                    </tr>
+                    <tr>
+                        <td><span class="school-badge">5</span></td>
+                        <td>Lycée de Rubavu</td>
+                        <td>Alice Uwase</td>
+                        <td>79.3%</td>
+                        <td>85%</td>
+                        <td><a href="tel:+250788567890">+250 788 567 890</a></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <h3>Rubavu Students Hub</h3>
+        <p>Connecting 20 Schools, Empowering Thousands of Students</p>
+        <p>&copy; 2024 Rubavu Students Hub. All rights reserved.</p>
+    </footer>
+
+    <script>
+        // Theme Toggle
+        function toggleTheme() {
+            const body = document.body;
+            const themeIcon = document.getElementById('themeIcon');
+            
+            body.classList.toggle('dark-mode');
+            
+            if (body.classList.contains('dark-mode')) {
+                themeIcon.classList.remove('fa-moon');
+                themeIcon.classList.add('fa-sun');
+                localStorage.setItem('theme', 'dark');
+            } else {
+                themeIcon.classList.remove('fa-sun');
+                themeIcon.classList.add('fa-moon');
+                localStorage.setItem('theme', 'light');
+            }
+        }
+
+        // Load saved theme
+        window.addEventListener('DOMContentLoaded', () => {
+            const savedTheme = localStorage.getItem('theme');
+            if (savedTheme === 'dark') {
+                document.body.classList.add('dark-mode');
+                document.getElementById('themeIcon').classList.remove('fa-moon');
+                document.getElementById('themeIcon').classList.add('fa-sun');
+            }
+        });
+
+        // Filter Students
+        function filterStudents(category) {
+            const cards = document.querySelectorAll('.student-card');
+            const buttons = document.querySelectorAll('.filter-btn');
+            
+            buttons.forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+            
+            cards.forEach(card => {
+                if (category === 'all' || card.dataset.category === category) {
+                    card.style.display = 'flex';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        }
+    </script>
+</body>
+</html>

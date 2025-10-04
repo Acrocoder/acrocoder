@@ -1,0 +1,1247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Talents Showcase - Rubavu Students Hub</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #6366f1;
+            --secondary-color: #ec4899;
+            --accent-color: #10b981;
+            --dark-bg: #0f172a;
+            --dark-card: #1e293b;
+            --dark-text: #e2e8f0;
+            --light-bg: #f8fafc;
+            --light-card: #ffffff;
+            --light-text: #1e293b;
+            --gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: var(--light-bg);
+            color: var(--light-text);
+            transition: var(--transition);
+            overflow-x: hidden;
+        }
+
+        body.dark-mode {
+            background: var(--dark-bg);
+            color: var(--dark-text);
+        }
+
+        body.dark-mode .card {
+            background: var(--dark-card);
+            border-color: #334155;
+        }
+
+        body.dark-mode .nav-container {
+            background: var(--dark-card);
+        }
+
+        /* Navigation */
+        .nav-container {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: var(--light-card);
+            box-shadow: var(--shadow);
+            z-index: 1000;
+            transition: var(--transition);
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 5%;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+            align-items: center;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: inherit;
+            font-weight: 500;
+            transition: var(--transition);
+            position: relative;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary-color);
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--primary-color);
+            transition: width 0.3s;
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        .theme-toggle {
+            background: var(--gradient);
+            border: none;
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: var(--transition);
+        }
+
+        .theme-toggle:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 15px rgba(99, 102, 241, 0.3);
+        }
+
+        /* Page Header */
+        .page-header {
+            margin-top: 80px;
+            padding: 3rem 5%;
+            background: var(--gradient);
+            color: white;
+            text-align: center;
+        }
+
+        .page-header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        /* Main Container */
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem 5%;
+        }
+
+        /* Talent Categories */
+        .talent-categories {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .category-btn {
+            padding: 0.5rem 1.2rem;
+            border: 2px solid var(--primary-color);
+            background: transparent;
+            color: var(--primary-color);
+            border-radius: 25px;
+            cursor: pointer;
+            transition: var(--transition);
+            font-weight: 500;
+        }
+
+        .category-btn:hover,
+        .category-btn.active {
+            background: var(--primary-color);
+            color: white;
+        }
+
+        /* Featured Talent */
+        .featured-talent {
+            background: var(--gradient);
+            color: white;
+            padding: 2rem;
+            border-radius: 15px;
+            margin-bottom: 3rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .featured-talent::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 1px, transparent 1px);
+            background-size: 20px 20px;
+            animation: float 20s linear infinite;
+        }
+
+        @keyframes float {
+            0% { transform: translate(0, 0); }
+            100% { transform: translate(20px, 20px); }
+        }
+
+        .featured-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            align-items: center;
+            position: relative;
+            z-index: 1;
+        }
+
+        .featured-video {
+            position: relative;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .featured-video img {
+            width: 100%;
+            height: 300px;
+            object-fit: cover;
+        }
+
+        .featured-info h2 {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        .featured-info p {
+            margin-bottom: 1rem;
+            opacity: 0.9;
+        }
+
+        .featured-meta {
+            display: flex;
+            gap: 2rem;
+            margin-top: 1rem;
+        }
+
+        .featured-meta span {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        /* Talent Grid */
+        .talent-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+        }
+
+        .talent-card {
+            background: var(--light-card);
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+        }
+
+        body.dark-mode .talent-card {
+            background: var(--dark-card);
+        }
+
+        .talent-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+        }
+
+        .talent-media {
+            position: relative;
+        }
+
+        .talent-thumbnail {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+        }
+
+        .play-btn {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 70px;
+            height: 70px;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: var(--transition);
+            font-size: 1.5rem;
+            color: var(--primary-color);
+        }
+
+        .play-btn:hover {
+            background: white;
+            transform: translate(-50%, -50%) scale(1.1);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .talent-info {
+            padding: 1.5rem;
+        }
+
+        .talent-info h3 {
+            font-size: 1.3rem;
+            margin-bottom: 0.5rem;
+            color: var(--light-text);
+        }
+
+        body.dark-mode .talent-info h3 {
+            color: var(--dark-text);
+        }
+
+        .talent-meta {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 0.5rem;
+            color: #64748b;
+            font-size: 0.9rem;
+        }
+
+        .talent-description {
+            color: #64748b;
+            line-height: 1.6;
+            margin-bottom: 1rem;
+        }
+
+        .talent-tags {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+
+        .talent-tag {
+            padding: 0.2rem 0.6rem;
+            background: var(--primary-color);
+            color: white;
+            border-radius: 15px;
+            font-size: 0.75rem;
+            font-weight: 500;
+        }
+
+        /* Stats Section */
+        .stats-section {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            margin: 3rem 0;
+        }
+
+        .stat-card {
+            background: var(--light-card);
+            padding: 2rem;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+        }
+
+        body.dark-mode .stat-card {
+            background: var(--dark-card);
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .stat-icon {
+            width: 60px;
+            height: 60px;
+            margin: 0 auto 1rem;
+            background: var(--gradient);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.5rem;
+        }
+
+        .stat-number {
+            font-size: 2rem;
+            font-weight: bold;
+            color: var(--primary-color);
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            color: #64748b;
+        }
+
+        /* Calendar Section */
+        .calendar-section {
+            background: var(--light-card);
+            border-radius: 15px;
+            padding: 2rem;
+            margin: 3rem 0;
+            box-shadow: var(--shadow);
+        }
+
+        body.dark-mode .calendar-section {
+            background: var(--dark-card);
+        }
+
+        .calendar-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .calendar-title {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--primary-color);
+        }
+
+        .calendar-nav {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .calendar-nav button {
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .calendar-nav button:hover {
+            transform: scale(1.1);
+        }
+
+        .calendar-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 0.5rem;
+        }
+
+        .calendar-day-header {
+            text-align: center;
+            font-weight: bold;
+            padding: 0.5rem;
+            color: var(--primary-color);
+        }
+
+        .calendar-day {
+            aspect-ratio: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: var(--transition);
+            position: relative;
+        }
+
+        .calendar-day:hover {
+            background: rgba(99, 102, 241, 0.1);
+        }
+
+        .calendar-day.has-event {
+            background: rgba(99, 102, 241, 0.1);
+            font-weight: bold;
+        }
+
+        .calendar-day-number {
+            font-size: 1rem;
+        }
+
+        .calendar-event-indicator {
+            width: 6px;
+            height: 6px;
+            background: var(--secondary-color);
+            border-radius: 50%;
+            margin-top: 2px;
+        }
+
+        /* Past Performances Section */
+        .past-performances {
+            margin-top: 3rem;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2rem;
+            margin-bottom: 2rem;
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .performance-tabs {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .performance-tab {
+            padding: 0.5rem 1.5rem;
+            background: transparent;
+            border: 2px solid var(--primary-color);
+            color: var(--primary-color);
+            border-radius: 25px;
+            cursor: pointer;
+            transition: var(--transition);
+            font-weight: 500;
+        }
+
+        .performance-tab.active,
+        .performance-tab:hover {
+            background: var(--primary-color);
+            color: white;
+        }
+
+        .performance-content {
+            display: none;
+        }
+
+        .performance-content.active {
+            display: block;
+        }
+
+        .performance-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .performance-card {
+            background: var(--light-card);
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+        }
+
+        body.dark-mode .performance-card {
+            background: var(--dark-card);
+        }
+
+        .performance-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+        }
+
+        .performance-media {
+            position: relative;
+        }
+
+        .performance-thumbnail {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+
+        .performance-info {
+            padding: 1.5rem;
+        }
+
+        .performance-info h3 {
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
+            color: var(--light-text);
+        }
+
+        body.dark-mode .performance-info h3 {
+            color: var(--dark-text);
+        }
+
+        .performance-meta {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 0.5rem;
+            color: #64748b;
+            font-size: 0.9rem;
+        }
+
+        .performance-description {
+            color: #64748b;
+            line-height: 1.6;
+            margin-bottom: 1rem;
+        }
+
+        .performance-stats {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .performance-stat {
+            display: flex;
+            align-items: center;
+            gap: 0.3rem;
+            color: var(--primary-color);
+            font-size: 0.9rem;
+        }
+
+        /* Footer */
+        footer {
+            background: var(--gradient);
+            color: white;
+            text-align: center;
+            padding: 2rem 5%;
+            margin-top: 3rem;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+
+            .page-header h1 {
+                font-size: 2rem;
+            }
+
+            .featured-content {
+                grid-template-columns: 1fr;
+            }
+
+            .talent-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .stats-section {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .calendar-grid {
+                font-size: 0.8rem;
+            }
+
+            .performance-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <div class="nav-container">
+        <nav>
+            <div class="logo">
+                <i class="fas fa-graduation-cap"></i>
+                Rubavu Students Hub
+            </div>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="news.html">News</a></li>
+                <li><a href="gallery.html">Gallery</a></li>
+                <li><a href="stars.html">Stars</a></li>
+                <li><a href="academics.html">Academics</a></li>
+                <li><a href="talents.html">Talents</a></li>
+                <li><a href="events.html">Events</a></li>
+                <li><a href="contact.html">Contact</a></li>
+                <li><button class="theme-toggle" onclick="toggleTheme()">
+                    <i class="fas fa-moon" id="themeIcon"></i>
+                </button></li>
+            </ul>
+        </nav>
+    </div>
+
+    <!-- Page Header -->
+    <section class="page-header">
+        <h1>Student Talents Showcase</h1>
+        <p>Discover the amazing talents of students across Rubavu</p>
+    </section>
+
+    <!-- Main Container -->
+    <div class="container">
+        <!-- Talent Categories -->
+        <div class="talent-categories">
+            <button class="category-btn active" onclick="filterTalents('all')">All Talents</button>
+            <button class="category-btn" onclick="filterTalents('music')">Music</button>
+            <button class="category-btn" onclick="filterTalents('dance')">Dance</button>
+            <button class="category-btn" onclick="filterTalents('art')">Art</button>
+            <button class="category-btn" onclick="filterTalents('drama')">Drama</button>
+            <button class="category-btn" onclick="filterTalents('sports')">Sports</button>
+        </div>
+
+        <!-- Featured Talent -->
+        <div class="featured-talent">
+            <div class="featured-content">
+                <div class="featured-video">
+                    <img src="https://picsum.photos/seed/featured/600/300" alt="Featured Talent">
+                    <div class="play-btn" onclick="playVideo('featured')">
+                        <i class="fas fa-play"></i>
+                    </div>
+                </div>
+                <div class="featured-info">
+                    <h2>Featured: Traditional Dance Performance</h2>
+                    <p>Experience the breathtaking traditional Rwandan dance performance by Sarah Uwimana from G.S St. Joseph. This performance showcases the rich cultural heritage of Rwanda through intricate movements and vibrant costumes.</p>
+                    <div class="featured-meta">
+                        <span><i class="fas fa-eye"></i> 5.2K views</span>
+                        <span><i class="fas fa-heart"></i> 489 likes</span>
+                        <span><i class="fas fa-share"></i> 127 shares</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Talent Grid -->
+        <div class="talent-grid">
+            <div class="talent-card" data-category="dance">
+                <div class="talent-media">
+                    <img src="https://picsum.photos/seed/talent1/400/250" alt="Talent" class="talent-thumbnail">
+                    <div class="play-btn" onclick="playVideo('talent1')">
+                        <i class="fas fa-play"></i>
+                    </div>
+                </div>
+                <div class="talent-info">
+                    <h3>Contemporary Dance Fusion</h3>
+                    <div class="talent-meta">
+                        <span><i class="fas fa-user"></i> Sarah Uwimana</span>
+                        <span><i class="fas fa-school"></i> G.S St. Joseph</span>
+                    </div>
+                    <p class="talent-description">A mesmerizing blend of contemporary and traditional dance styles that tells a powerful story of cultural evolution.</p>
+                    <div class="talent-tags">
+                        <span class="talent-tag">Dance</span>
+                        <span class="talent-tag">Contemporary</span>
+                        <span class="talent-tag">Award Winner</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="talent-card" data-category="music">
+                <div class="talent-media">
+                    <img src="https://picsum.photos/seed/talent2/400/250" alt="Talent" class="talent-thumbnail">
+                    <div class="play-btn" onclick="playVideo('talent2')">
+                        <i class="fas fa-play"></i>
+                    </div>
+                </div>
+                <div class="talent-info">
+                    <h3>Original Music Composition</h3>
+                    <div class="talent-meta">
+                        <span><i class="fas fa-users"></i> The Melodies Band</span>
+                        <span><i class="fas fa-school"></i> E.S.T. Rubavu</span>
+                    </div>
+                    <p class="talent-description">An original composition performed by the school band, featuring traditional instruments with modern arrangements.</p>
+                    <div class="talent-tags">
+                        <span class="talent-tag">Music</span>
+                        <span class="talent-tag">Original</span>
+                        <span class="talent-tag">Band</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="talent-card" data-category="art">
+                <div class="talent-media">
+                    <img src="https://picsum.photos/seed/talent3/400/250" alt="Talent" class="talent-thumbnail">
+                    <div class="play-btn" onclick="playVideo('talent3')">
+                        <i class="fas fa-play"></i>
+                    </div>
+                </div>
+                <div class="talent-info">
+                    <h3>Digital Art Exhibition</h3>
+                    <div class="talent-meta">
+                        <span><i class="fas fa-user"></i> Grace Mukamana</span>
+                        <span><i class="fas fa-school"></i> APAPER School</span>
+                    </div>
+                    <p class="talent-description">A stunning collection of digital artworks exploring themes of identity and cultural heritage in modern Rwanda.</p>
+                    <div class="talent-tags">
+                        <span class="talent-tag">Art</span>
+                        <span class="talent-tag">Digital</span>
+                        <span class="talent-tag">Exhibition</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Calendar Section -->
+        <div class="calendar-section">
+            <div class="calendar-header">
+                <h2 class="calendar-title">Talent Performance Calendar</h2>
+                <div class="calendar-nav">
+                    <button onclick="changeMonth(-1)"><i class="fas fa-chevron-left"></i></button>
+                    <button onclick="changeMonth(1)"><i class="fas fa-chevron-right"></i></button>
+                </div>
+            </div>
+            <div class="calendar-grid" id="calendar">
+                <!-- Calendar will be generated by JavaScript -->
+            </div>
+        </div>
+
+        <!-- Past Performances Section -->
+        <div class="past-performances">
+            <h2 class="section-title">Past Talent Show Performances</h2>
+            
+            <div class="performance-tabs">
+                <button class="performance-tab active" onclick="switchPerformanceTab('recent')">Recent</button>
+                <button class="performance-tab" onclick="switchPerformanceTab('popular')">Most Popular</button>
+                <button class="performance-tab" onclick="switchPerformanceTab('award')">Award Winners</button>
+            </div>
+            
+            <!-- Recent Performances -->
+            <div id="recent-performances" class="performance-content active">
+                <div class="performance-grid">
+                    <div class="performance-card">
+                        <div class="performance-media">
+                            <img src="https://picsum.photos/seed/perf1/400/200" alt="Performance" class="performance-thumbnail">
+                            <div class="play-btn" onclick="playVideo('perf1')">
+                                <i class="fas fa-play"></i>
+                            </div>
+                        </div>
+                        <div class="performance-info">
+                            <h3>Traditional Dance Showcase</h3>
+                            <div class="performance-meta">
+                                <span><i class="fas fa-calendar"></i> November 15, 2024</span>
+                                <span><i class="fas fa-school"></i> G.S St. Joseph</span>
+                            </div>
+                            <p class="performance-description">Breathtaking performance at the district cultural festival featuring traditional Rwandan dance forms.</p>
+                            <div class="performance-stats">
+                                <span class="performance-stat"><i class="fas fa-eye"></i> 3.2K views</span>
+                                <span class="performance-stat"><i class="fas fa-heart"></i> 287 likes</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="performance-card">
+                        <div class="performance-media">
+                            <img src="https://picsum.photos/seed/perf2/400/200" alt="Performance" class="performance-thumbnail">
+                            <div class="play-btn" onclick="playVideo('perf2')">
+                                <i class="fas fa-play"></i>
+                            </div>
+                        </div>
+                        <div class="performance-info">
+                            <h3>Piano Concerto Performance</h3>
+                            <div class="performance-meta">
+                                <span><i class="fas fa-calendar"></i> November 10, 2024</span>
+                                <span><i class="fas fa-school"></i> E.S.T. Rubavu</span>
+                            </div>
+                            <p class="performance-description">Exceptional piano performance of classical pieces by Mozart and Chopin at the inter-school music competition.</p>
+                            <div class="performance-stats">
+                                <span class="performance-stat"><i class="fas fa-eye"></i> 2.8K views</span>
+                                <span class="performance-stat"><i class="fas fa-heart"></i> 256 likes</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="performance-card">
+                        <div class="performance-media">
+                            <img src="https://picsum.photos/seed/perf3/400/200" alt="Performance" class="performance-thumbnail">
+                            <div class="play-btn" onclick="playVideo('perf3')">
+                                <i class="fas fa-play"></i>
+                            </div>
+                        </div>
+                        <div class="performance-info">
+                            <h3>Spoken Word Poetry</h3>
+                            <div class="performance-meta">
+                                <span><i class="fas fa-calendar"></i> November 5, 2024</span>
+                                <span><i class="fas fa-school"></i> APAPER School</span>
+                            </div>
+                            <p class="performance-description">Powerful spoken word performance addressing social issues and inspiring change in the community.</p>
+                            <div class="performance-stats">
+                                <span class="performance-stat"><i class="fas fa-eye"></i> 2.1K views</span>
+                                <span class="performance-stat"><i class="fas fa-heart"></i> 198 likes</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Most Popular Performances -->
+            <div id="popular-performances" class="performance-content">
+                <div class="performance-grid">
+                    <div class="performance-card">
+                        <div class="performance-media">
+                            <img src="https://picsum.photos/seed/pop1/400/200" alt="Performance" class="performance-thumbnail">
+                            <div class="play-btn" onclick="playVideo('pop1')">
+                                <i class="fas fa-play"></i>
+                            </div>
+                        </div>
+                        <div class="performance-info">
+                            <h3>Rock Band Performance</h3>
+                            <div class="performance-meta">
+                                <span><i class="fas fa-calendar"></i> October 20, 2024</span>
+                                <span><i class="fas fa-school"></i> College St. Andre</span>
+                            </div>
+                            <p class="performance-description">Electrifying rock band performance that brought the house down at the annual talent show.</p>
+                            <div class="performance-stats">
+                                <span class="performance-stat"><i class="fas fa-eye"></i> 8.5K views</span>
+                                <span class="performance-stat"><i class="fas fa-heart"></i> 742 likes</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="performance-card">
+                        <div class="performance-media">
+                            <img src="https://picsum.photos/seed/pop2/400/200" alt="Performance" class="performance-thumbnail">
+                            <div class="play-btn" onclick="playVideo('pop2')">
+                                <i class="fas fa-play"></i>
+                            </div>
+                        </div>
+                        <div class="performance-info">
+                            <h3>Magic Show Performance</h3>
+                            <div class="performance-meta">
+                                <span><i class="fas fa-calendar"></i> October 15, 2024</span>
+                                <span><i class="fas fa-school"></i> Lycée de Rubavu</span>
+                            </div>
+                            <p class="performance-description">Mind-blowing magic tricks and illusions that left the audience amazed and bewildered.</p>
+                            <div class="performance-stats">
+                                <span class="performance-stat"><i class="fas fa-eye"></i> 7.2K views</span>
+                                <span class="performance-stat"><i class="fas fa-heart"></i> 658 likes</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="performance-card">
+                        <div class="performance-media">
+                            <img src="https://picsum.photos/seed/pop3/400/200" alt="Performance" class="performance-thumbnail">
+                            <div class="play-btn" onclick="playVideo('pop3')">
+                                <i class="fas fa-play"></i>
+                            </div>
+                        </div>
+                        <div class="performance-info">
+                            <h3>Acrobatic Performance</h3>
+                            <div class="performance-meta">
+                                <span><i class="fas fa-calendar"></i> October 10, 2024</span>
+                                <span><i class="fas fa-school"></i> E.T.D. Kivumu</span>
+                            </div>
+                            <p class="performance-description">Incredible acrobatic performance showcasing flexibility, strength, and perfect synchronization.</p>
+                            <div class="performance-stats">
+                                <span class="performance-stat"><i class="fas fa-eye"></i> 6.8K views</span>
+                                <span class="performance-stat"><i class="fas fa-heart"></i> 612 likes</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Award Winning Performances -->
+            <div id="award-performances" class="performance-content">
+                <div class="performance-grid">
+                    <div class="performance-card">
+                        <div class="performance-media">
+                            <img src="https://picsum.photos/seed/award1/400/200" alt="Performance" class="performance-thumbnail">
+                            <div class="play-btn" onclick="playVideo('award1')">
+                                <i class="fas fa-play"></i>
+                            </div>
+                        </div>
+                        <div class="performance-info">
+                            <h3>First Place: Vocal Performance</h3>
+                            <div class="performance-meta">
+                                <span><i class="fas fa-trophy"></i> District Champion</span>
+                                <span><i class="fas fa-school"></i> G.S St. Joseph</span>
+                            </div>
+                            <p class="performance-description">Award-winning vocal performance that impressed judges with technical skill and emotional expression.</p>
+                            <div class="performance-stats">
+                                <span class="performance-stat"><i class="fas fa-eye"></i> 5.2K views</span>
+                                <span class="performance-stat"><i class="fas fa-heart"></i> 489 likes</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="performance-card">
+                        <div class="performance-media">
+                            <img src="https://picsum.photos/seed/award2/400/200" alt="Performance" class="performance-thumbnail">
+                            <div class="play-btn" onclick="playVideo('award2')">
+                                <i class="fas fa-play"></i>
+                            </div>
+                        </div>
+                        <div class="performance-info">
+                            <h3>Second Place: Dance Performance</h3>
+                            <div class="performance-meta">
+                                <span><i class="fas fa-medal"></i> Runner-up</span>
+                                <span><i class="fas fa-school"></i> E.S.T. Rubavu</span>
+                            </div>
+                            <p class="performance-description">Synchronized dance performance that showcased teamwork, creativity, and exceptional choreography.</p>
+                            <div class="performance-stats">
+                                <span class="performance-stat"><i class="fas fa-eye"></i> 4.7K views</span>
+                                <span class="performance-stat"><i class="fas fa-heart"></i> 423 likes</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="performance-card">
+                        <div class="performance-media">
+                            <img src="https://picsum.photos/seed/award3/400/200" alt="Performance" class="performance-thumbnail">
+                            <div class="play-btn" onclick="playVideo('award3')">
+                                <i class="fas fa-play"></i>
+                            </div>
+                        </div>
+                        <div class="performance-info">
+                            <h3>Third Place: Comedy Performance</h3>
+                            <div class="performance-meta">
+                                <span><i class="fas fa-award"></i> Third Place</span>
+                                <span><i class="fas fa-school"></i> APAPER School</span>
+                            </div>
+                            <p class="performance-description">Hilarious stand-up comedy routine that had the entire audience laughing throughout the performance.</p>
+                            <div class="performance-stats">
+                                <span class="performance-stat"><i class="fas fa-eye"></i> 4.1K views</span>
+                                <span class="performance-stat"><i class="fas fa-heart"></i> 387 likes</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Stats Section -->
+        <div class="stats-section">
+            <div class="stat-card">
+                <div class="stat-icon">
+                    <i class="fas fa-video"></i>
+                </div>
+                <div class="stat-number">150+</div>
+                <div class="stat-label">Talent Videos</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">
+                    <i class="fas fa-users"></i>
+                </div>
+                <div class="stat-number">500+</div>
+                <div class="stat-label">Talented Students</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">
+                    <i class="fas fa-eye"></i>
+                </div>
+                <div class="stat-number">50K+</div>
+                <div class="stat-label">Total Views</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">
+                    <i class="fas fa-trophy"></i>
+                </div>
+                <div class="stat-number">25</div>
+                <div class="stat-label">Award Winners</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <h3>Rubavu Students Hub</h3>
+        <p>Connecting 20 Schools, Empowering Thousands of Students</p>
+        <p>&copy; 2024 Rubavu Students Hub. All rights reserved.</p>
+    </footer>
+
+    <script>
+        // Theme Toggle
+        function toggleTheme() {
+            const body = document.body;
+            const themeIcon = document.getElementById('themeIcon');
+            
+            body.classList.toggle('dark-mode');
+            
+            if (body.classList.contains('dark-mode')) {
+                themeIcon.classList.remove('fa-moon');
+                themeIcon.classList.add('fa-sun');
+                localStorage.setItem('theme', 'dark');
+            } else {
+                themeIcon.classList.remove('fa-sun');
+                themeIcon.classList.add('fa-moon');
+                localStorage.setItem('theme', 'light');
+            }
+        }
+
+        // Load saved theme
+        window.addEventListener('DOMContentLoaded', () => {
+            const savedTheme = localStorage.getItem('theme');
+            if (savedTheme === 'dark') {
+                document.body.classList.add('dark-mode');
+                document.getElementById('themeIcon').classList.remove('fa-moon');
+                document.getElementById('themeIcon').classList.add('fa-sun');
+            }
+            
+            // Initialize calendar
+            initCalendar();
+        });
+
+        // Filter Talents
+        function filterTalents(category) {
+            const cards = document.querySelectorAll('.talent-card');
+            const buttons = document.querySelectorAll('.category-btn');
+            
+            buttons.forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+            
+            cards.forEach(card => {
+                if (category === 'all' || card.dataset.category === category) {
+                    card.style.display = 'block';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        }
+
+        // Play Video
+        function playVideo(videoId) {
+            alert(`Playing video: ${videoId}`);
+            // In a real application, this would open a video player
+        }
+
+        // Switch Performance Tab
+        function switchPerformanceTab(tab) {
+            const tabs = document.querySelectorAll('.performance-tab');
+            const contents = document.querySelectorAll('.performance-content');
+            
+            tabs.forEach(t => t.classList.remove('active'));
+            contents.forEach(c => c.classList.remove('active'));
+            
+            if (tab === 'recent') {
+                tabs[0].classList.add('active');
+                document.getElementById('recent-performances').classList.add('active');
+            } else if (tab === 'popular') {
+                tabs[1].classList.add('active');
+                document.getElementById('popular-performances').classList.add('active');
+            } else if (tab === 'award') {
+                tabs[2].classList.add('active');
+                document.getElementById('award-performances').classList.add('active');
+            }
+        }
+
+        // Calendar functionality
+        let currentMonth = new Date().getMonth();
+        let currentYear = new Date().getFullYear();
+        
+        // Sample talent events data
+        const talentEvents = [
+            { day: 5, month: 11, year: 2024, title: "Dance Performance" },
+            { day: 12, month: 11, year: 2024, title: "Music Concert" },
+            { day: 18, month: 11, year: 2024, title: "Art Exhibition" },
+            { day: 25, month: 11, year: 2024, title: "Drama Performance" },
+            { day: 3, month: 12, year: 2024, title: "Talent Show" },
+            { day: 10, month: 12, year: 2024, title: "Poetry Slam" },
+            { day: 15, month: 12, year: 2024, title: "Dance Competition" },
+            { day: 22, month: 12, year: 2024, title: "Music Festival" },
+        ];
+        
+        function initCalendar() {
+            renderCalendar();
+        }
+        
+        function renderCalendar() {
+            const calendar = document.getElementById('calendar');
+            const monthNames = ["January", "February", "March", "April", "May", "June",
+                "July", "August", "September", "October", "November", "December"];
+            const dayNames = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+            
+            // Update calendar title
+            document.querySelector('.calendar-title').textContent = `${monthNames[currentMonth]} ${currentYear}`;
+            
+            // Clear calendar
+            calendar.innerHTML = '';
+            
+            // Add day headers
+            dayNames.forEach(day => {
+                const dayHeader = document.createElement('div');
+                dayHeader.className = 'calendar-day-header';
+                dayHeader.textContent = day;
+                calendar.appendChild(dayHeader);
+            });
+            
+            // Get first day of month and number of days
+            const firstDay = new Date(currentYear, currentMonth, 1).getDay();
+            const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
+            
+            // Add empty cells for days before month starts
+            for (let i = 0; i < firstDay; i++) {
+                const emptyDay = document.createElement('div');
+                calendar.appendChild(emptyDay);
+            }
+            
+            // Add days of the month
+            for (let day = 1; day <= daysInMonth; day++) {
+                const dayElement = document.createElement('div');
+                dayElement.className = 'calendar-day';
+                
+                // Check if there's an event on this day
+                const hasEvent = talentEvents.some(event => 
+                    event.day === day && event.month === currentMonth && event.year === currentYear
+                );
+                
+                if (hasEvent) {
+                    dayElement.classList.add('has-event');
+                }
+                
+                const dayNumber = document.createElement('div');
+                dayNumber.className = 'calendar-day-number';
+                dayNumber.textContent = day;
+                dayElement.appendChild(dayNumber);
+                
+                if (hasEvent) {
+                    const eventIndicator = document.createElement('div');
+                    eventIndicator.className = 'calendar-event-indicator';
+                    dayElement.appendChild(eventIndicator);
+                    
+                    // Add click event to show event details
+                    dayElement.addEventListener('click', () => {
+                        const event = talentEvents.find(e => 
+                            e.day === day && e.month === currentMonth && e.year === currentYear
+                        );
+                        if (event) {
+                            showEventDetails(event);
+                        }
+                    });
+                }
+                
+                calendar.appendChild(dayElement);
+            }
+        }
+        
+        function changeMonth(direction) {
+            currentMonth += direction;
+            
+            if (currentMonth < 0) {
+                currentMonth = 11;
+                currentYear--;
+            } else if (currentMonth > 11) {
+                currentMonth = 0;
+                currentYear++;
+            }
+            
+            renderCalendar();
+        }
+        
+        function showEventDetails(event) {
+            const monthNames = ["January", "February", "March", "April", "May", "June",
+                "July", "August", "September", "October", "November", "December"];
+            
+            alert(`Event: ${event.title}\nDate: ${monthNames[event.month]} ${event.day}, ${event.year}\nTime: 2:00 PM - 5:00 PM\nLocation: Various Schools`);
+        }
+    </script>
+</body>
+</html>

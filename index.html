@@ -1,0 +1,2092 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rubavu Students Hub - Connect, Share, Excel</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #6366f1;
+            --secondary-color: #ec4899;
+            --accent-color: #10b981;
+            --dark-bg: #0f172a;
+            --dark-card: #1e293b;
+            --dark-text: #e2e8f0;
+            --light-bg: #f8fafc;
+            --light-card: #ffffff;
+            --light-text: #1e293b;
+            --gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: var(--light-bg);
+            color: var(--light-text);
+            transition: var(--transition);
+            overflow-x: hidden;
+        }
+
+        body.dark-mode {
+            background: var(--dark-bg);
+            color: var(--dark-text);
+        }
+
+        body.dark-mode .card {
+            background: var(--dark-card);
+            border-color: #334155;
+        }
+
+        body.dark-mode .nav-container {
+            background: var(--dark-card);
+        }
+
+        body.dark-mode .modal-content {
+            background: var(--dark-card);
+        }
+
+        /* Navigation */
+        .nav-container {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: var(--light-card);
+            box-shadow: var(--shadow);
+            z-index: 1000;
+            transition: var(--transition);
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 5%;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+            align-items: center;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: inherit;
+            font-weight: 500;
+            transition: var(--transition);
+            position: relative;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary-color);
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--primary-color);
+            transition: width 0.3s;
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        .theme-toggle {
+            background: var(--gradient);
+            border: none;
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: var(--transition);
+        }
+
+        .theme-toggle:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 15px rgba(99, 102, 241, 0.3);
+        }
+
+        /* Hero Section with Background Image */
+        .hero {
+            margin-top: 80px;
+            padding: 8rem 5%;
+            background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('https://picsum.photos/seed/rubavustudents/1920/600');
+            background-size: cover;
+            background-position: center;
+            color: white;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+            animation: fadeInDown 1s ease-out;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+            animation: fadeInUp 1s ease-out;
+        }
+
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Main Container */
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem 5%;
+        }
+
+        /* Section Styles */
+        .section {
+            margin: 3rem 0;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .section-header h2 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .section-header p {
+            color: #64748b;
+            font-size: 1.1rem;
+        }
+
+        /* Card Styles */
+        .card {
+            background: var(--light-card);
+            border-radius: 15px;
+            padding: 1.5rem;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+            border: 1px solid #e2e8f0;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+        }
+
+        /* News Section */
+        .news-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+        }
+
+        .news-card {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .news-card img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 10px;
+            margin-bottom: 1rem;
+        }
+
+        .news-badge {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: var(--secondary-color);
+            color: white;
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: bold;
+        }
+
+        .school-tag {
+            display: inline-block;
+            background: var(--primary-color);
+            color: white;
+            padding: 0.2rem 0.6rem;
+            border-radius: 5px;
+            font-size: 0.85rem;
+            margin-bottom: 0.5rem;
+        }
+
+        /* Gallery Section with Tabs */
+        .gallery-tabs {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 2rem;
+            gap: 1rem;
+        }
+
+        .gallery-tab {
+            padding: 0.5rem 1.5rem;
+            background: transparent;
+            border: 2px solid var(--primary-color);
+            color: var(--primary-color);
+            border-radius: 25px;
+            cursor: pointer;
+            transition: var(--transition);
+            font-weight: 500;
+        }
+
+        .gallery-tab.active,
+        .gallery-tab:hover {
+            background: var(--primary-color);
+            color: white;
+        }
+
+        .gallery-content {
+            display: none;
+        }
+
+        .gallery-content.active {
+            display: block;
+        }
+
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .gallery-item {
+            position: relative;
+            overflow: hidden;
+            border-radius: 10px;
+            cursor: pointer;
+            aspect-ratio: 1;
+        }
+
+        .gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: var(--transition);
+        }
+
+        .gallery-item:hover img {
+            transform: scale(1.1);
+        }
+
+        .gallery-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(to top, rgba(0,0,0,0.8), transparent);
+            color: white;
+            padding: 1rem;
+            transform: translateY(100%);
+            transition: var(--transition);
+        }
+
+        .gallery-item:hover .gallery-overlay {
+            transform: translateY(0);
+        }
+
+        /* Video Gallery */
+        .video-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .video-card {
+            position: relative;
+            overflow: hidden;
+            border-radius: 15px;
+            box-shadow: var(--shadow);
+        }
+
+        .video-thumbnail {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+
+        .play-btn {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 60px;
+            height: 60px;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .play-btn:hover {
+            background: white;
+            transform: translate(-50%, -50%) scale(1.1);
+        }
+
+        .video-info {
+            padding: 1rem;
+            background: var(--light-card);
+        }
+
+        body.dark-mode .video-info {
+            background: var(--dark-card);
+        }
+
+        /* Stars Comparison Section */
+        .comparison-container {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+        }
+
+        .comparison-header {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        .comparison-btn {
+            padding: 0.5rem 1.5rem;
+            background: transparent;
+            border: 2px solid var(--primary-color);
+            color: var(--primary-color);
+            border-radius: 25px;
+            cursor: pointer;
+            transition: var(--transition);
+            font-weight: 500;
+        }
+
+        .comparison-btn.active,
+        .comparison-btn:hover {
+            background: var(--primary-color);
+            color: white;
+        }
+
+        .comparison-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .profile-card {
+            text-align: center;
+            padding: 1.5rem;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-radius: 15px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .profile-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 2px, transparent 2px);
+            background-size: 15px 15px;
+        }
+
+        .profile-img {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            border: 4px solid white;
+            margin: 0 auto 1rem;
+            object-fit: cover;
+            position: relative;
+            z-index: 1;
+        }
+
+        .vote-btn {
+            background: white;
+            color: var(--primary-color);
+            border: none;
+            padding: 0.5rem 1.5rem;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: bold;
+            margin-top: 1rem;
+            transition: var(--transition);
+            position: relative;
+            z-index: 1;
+        }
+
+        .vote-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 15px rgba(255, 255, 255, 0.3);
+        }
+
+        /* Academic Performance - Top Students */
+        .top-students-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .student-card {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+            padding: 1.5rem;
+            border-radius: 15px;
+            background: var(--light-card);
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+        }
+
+        body.dark-mode .student-card {
+            background: var(--dark-card);
+        }
+
+        .student-rank {
+            font-size: 2rem;
+            font-weight: bold;
+            color: var(--primary-color);
+            min-width: 50px;
+            text-align: center;
+        }
+
+        .student-avatar {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        .student-info h3 {
+            margin-bottom: 0.5rem;
+        }
+
+        .student-school {
+            color: #64748b;
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .student-score {
+            font-weight: bold;
+            color: var(--accent-color);
+        }
+
+        /* Talents Section with Videos */
+        .talent-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .talent-card {
+            position: relative;
+            overflow: hidden;
+            border-radius: 15px;
+            box-shadow: var(--shadow);
+        }
+
+        .talent-thumbnail {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+        }
+
+        .talent-info {
+            padding: 1rem;
+            background: var(--light-card);
+        }
+
+        body.dark-mode .talent-info {
+            background: var(--dark-card);
+        }
+
+        /* Events Section with Videos */
+        .event-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+        }
+
+        .event-card {
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+        }
+
+        .event-video {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+
+        .event-details {
+            padding: 1.5rem;
+            background: var(--light-card);
+        }
+
+        body.dark-mode .event-details {
+            background: var(--dark-card);
+        }
+
+        .event-date {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--accent-color);
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .event-location {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: #64748b;
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+        }
+
+        .event-title {
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        /* Contact Section - Smaller */
+        .contact-section {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .contact-form {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .form-row {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .form-group {
+            flex: 1;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 0.8rem;
+            border: 2px solid #e2e8f0;
+            border-radius: 10px;
+            font-size: 1rem;
+            transition: var(--transition);
+            background: var(--light-card);
+            color: inherit;
+        }
+
+        body.dark-mode .form-group input,
+        body.dark-mode .form-group textarea {
+            background: var(--dark-card);
+            border-color: #334155;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+        }
+
+        .submit-btn {
+            background: var(--gradient);
+            color: white;
+            border: none;
+            padding: 0.8rem 2rem;
+            border-radius: 25px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            align-self: center;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(99, 102, 241, 0.3);
+        }
+
+        /* Social Media */
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+        }
+
+        .social-link {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.2rem;
+            transition: var(--transition);
+            text-decoration: none;
+        }
+
+        .social-link:hover {
+            transform: translateY(-5px) rotate(360deg);
+        }
+
+        .social-facebook { background: #1877f2; }
+        .social-instagram { background: linear-gradient(45deg, #f09433 0%,#e6683c 25%,#dc2743 50%,#cc2366 75%,#bc1888 100%); }
+        .social-twitter { background: #1da1f2; }
+        .social-whatsapp { background: #25d366; }
+
+        /* Footer */
+        footer {
+            background: var(--gradient);
+            color: white;
+            text-align: center;
+            padding: 2rem 5%;
+            margin-top: 3rem;
+        }
+
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 2000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: var(--light-card);
+            padding: 2rem;
+            border-radius: 15px;
+            max-width: 90%;
+            max-height: 90%;
+            position: relative;
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: var(--secondary-color);
+            color: white;
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 1.5rem;
+            transition: var(--transition);
+        }
+
+        .modal-close:hover {
+            transform: rotate(90deg);
+        }
+
+         /* School Directory Panel */
+        .school-directory {
+            position: fixed;
+            right: -400px;
+            top: 80px;
+            width: 350px;
+            height: calc(100vh - 80px);
+            background: var(--light-card);
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+            z-index: 998;
+            overflow-y: auto;
+        }
+
+        body.dark-mode .school-directory {
+            background: var(--dark-card);
+        }
+
+        .school-directory.active {
+            right: 0;
+        }
+
+        .directory-header {
+            padding: 1.5rem;
+            background: var(--gradient);
+            color: white;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .directory-close {
+            background: rgba(255, 255, 255, 0.2);
+            border: none;
+            color: white;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .school-list {
+            padding: 1rem;
+        }
+
+        .school-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1rem;
+            margin-bottom: 0.5rem;
+            background: var(--light-bg);
+            border-radius: 10px;
+            cursor: pointer;
+            transition: var(--transition);
+            text-decoration: none;
+            color: inherit;
+        }
+
+        body.dark-mode .school-item {
+            background: var(--dark-bg);
+        }
+
+        .school-item:hover {
+            background: var(--primary-color);
+            color: white;
+            transform: translateX(-5px);
+        }
+
+        .school-icon {
+            width: 40px;
+            height: 40px;
+            background: var(--gradient);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+        }
+
+        .school-info h4 {
+            margin-bottom: 0.2rem;
+        }
+
+        .school-info p {
+            font-size: 0.85rem;
+            opacity: 0.8;
+        }
+
+        /* Style the button */
+       button {
+            background-color: rgba(99, 102, 241, 0.3); 
+            color: white; 
+            padding: 10px 20px; 
+            font-size: 16px; 
+            border: none; 
+            border-radius: 30px; 
+            cursor: pointer; 
+            transition: background-color 0.3s ease; 
+        }
+
+        button:hover {
+            background-color: #0056b3; 
+       }
+
+a {
+  text-decoration: none; 
+}
+
+a {
+  margin-top: 10px;
+}
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+
+            .hero h1 {
+                font-size: 2rem;
+            }
+
+            .section-header h2 {
+                font-size: 1.8rem;
+            }
+
+              /* School Directory Button */
+        .school-directory-trigger {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 60px;
+            height: 60px;
+            background: var(--gradient);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+            z-index: 999;
+        }
+
+        .school-directory-trigger:hover {
+            transform: scale(1.1);
+            box-shadow: 0 15px 30px rgba(99, 102, 241, 0.4);
+        }
+
+        /* School Directory Panel */
+        .school-directory {
+            position: fixed;
+            right: -400px;
+            top: 80px;
+            width: 350px;
+            height: calc(100vh - 80px);
+            background: var(--light-card);
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+            z-index: 998;
+            overflow-y: auto;
+        }
+
+        body.dark-mode .school-directory {
+            background: var(--dark-card);
+        }
+
+        .school-directory.active {
+            right: 0;
+        }
+
+        .directory-header {
+            padding: 1.5rem;
+            background: var(--gradient);
+            color: white;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .directory-close {
+            background: rgba(255, 255, 255, 0.2);
+            border: none;
+            color: white;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .school-list {
+            padding: 1rem;
+        }
+
+        .school-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1rem;
+            margin-bottom: 0.5rem;
+            background: var(--light-bg);
+            border-radius: 10px;
+            cursor: pointer;
+            transition: var(--transition);
+            text-decoration: none;
+            color: inherit;
+        }
+
+        body.dark-mode .school-item {
+            background: var(--dark-bg);
+        }
+
+        .school-item:hover {
+            background: var(--primary-color);
+            color: white;
+            transform: translateX(-5px);
+        }
+
+        .school-icon {
+            width: 40px;
+            height: 40px;
+            background: var(--gradient);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+        }
+
+        .school-info h4 {
+            margin-bottom: 0.2rem;
+        }
+
+        .school-info p {
+            font-size: 0.85rem;
+            opacity: 0.8;
+        }
+
+        /* Filter Tabs */
+        .filter-tabs {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .filter-tab {
+            padding: 0.5rem 1.5rem;
+            background: transparent;
+            border: 2px solid var(--primary-color);
+            color: var(--primary-color);
+            border-radius: 25px;
+            cursor: pointer;
+            transition: var(--transition);
+            font-weight: 500;
+        }
+
+        .filter-tab.active,
+        .filter-tab:hover {
+            background: var(--primary-color);
+            color: white;
+        }
+
+        /* School Gallery Section */
+        .school-gallery {
+            display: none;
+            margin-bottom: 3rem;
+        }
+
+        .school-gallery.active {
+            display: block;
+        }
+
+        .school-header {
+            text-align: center;
+            margin-bottom: 2rem;
+            padding: 2rem;
+            background: var(--gradient);
+            color: white;
+            border-radius: 15px;
+        }
+
+        .school-header h2 {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .school-description {
+            font-size: 1.1rem;
+            opacity: 0.9;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+            .news-grid,
+            .talent-grid,
+            .event-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .comparison-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .gallery-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .form-row {
+                flex-direction: column;
+            }
+        }
+
+        /* Loading Animation */
+        .loader {
+            width: 50px;
+            height: 50px;
+            border: 5px solid #f3f3f3;
+            border-top: 5px solid var(--primary-color);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 2rem auto;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Notification Toast */
+        .toast {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            background: var(--gradient);
+            color: white;
+            padding: 1rem 1.5rem;
+            border-radius: 10px;
+            box-shadow: var(--shadow);
+            transform: translateX(400px);
+            transition: transform 0.3s;
+            z-index: 3000;
+        }
+
+        .toast.show {
+            transform: translateX(0);
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <div class="nav-container">
+        <nav>
+            <div class="logo">
+                <i class="fas fa-graduation-cap"></i>
+                Rubavu Students Hub
+            </div>
+            <ul class="nav-links">
+                <li><a href="news.html">News</a></li>
+                <li><a href="gallely.html">Gallery</a></li>
+                <li><a href="stars.html">Stars</a></li>
+                <li><a href="academics.html">Academics</a></li>
+                <li><a href="talent.html">Talents</a></li>
+                <li><a href="events.html">Events</a></li>
+                <li><a href="contact.html">Contact</a></li>
+                <li><button class="theme-toggle" onclick="toggleTheme()">
+                    <i class="fas fa-moon" id="themeIcon"></i>
+                </button></li>
+            </ul>
+        </nav>
+    </div>
+
+    <!-- Hero Section with Background Image -->
+    <section class="hero">
+        <div class="hero-content">
+            <h1>Welcome to Rubavu Students Hub</h1>
+            <p>Connect, Share, and Excel with Students from 20 Schools Across Rubavu District</p>
+        </div>
+    </section>
+
+    <!-- Main Container -->
+    <div class="container">
+        <!-- Trending News Section -->
+        <section id="news" class="section">
+            <div class="section-header">
+                <h2>Trending School News</h2>
+                <p>Stay updated with the latest happenings across all schools</p>
+            </div>
+            <div class="news-grid">
+                <div class="card news-card">
+                    <span class="news-badge">TRENDING</span>
+                    <img src="img/estg/fam (3).webp" alt="News">
+                    <span class="school-tag">ESTG TSS</span>
+                    <h3>Science Exhibition Success</h3>
+                    <p>Students showcase innovative projects at the annual science fair...</p>
+                    <small>2 hours ago</small>
+                </div>
+                <div class="card news-card">
+                    <img src="img/essa/girl (5).jpg" alt="News">
+                    <span class="school-tag">ESG SCHOOL</span>
+                    <h3>T-Show</h3>
+                    <p>Amazing performances at the inter-school  boom and T-show perfomances</p>
+                    <small>1 day ago</small>
+                </div>
+                <div class="card news-card">
+                    <img src="img/gass/aerg (1).jpg" alt="News">
+                    <span class="school-tag">GASS School</span>
+                    <h3>Cultural Festival Highlights</h3>
+                    <p>Amazing performances at the inter-school cultural competition...</p>
+                    <small>1 day ago</small>
+                </div>
+                <div class="card news-card">
+                    <img src="img/lycee nyundo/girl (2).jpg" alt="News">
+                    <span class="school-tag">LYCEE DE NYUNDO</span>
+                    <h3>Cultural Festival Highlights</h3>
+                    <p>Amazing performances at the inter-school cultural competition...</p>
+                    <small>1 day ago</small>
+                </div>
+                <div class="card news-card">
+                    <img src="img/art nyundo/boy (2).heic" alt="News">
+                    <span class="school-tag">ART NYUNDO</span>
+                    <h3>Cultural Festival Highlights</h3>
+                    <p>One of the best artist at Nyundo art</p>
+                    <small>1 day ago</small>
+                </div>
+                <div class="card news-card">
+                    <img src="img/esig/boy (5).webp" alt="News">
+                    <span class="school-tag">ESIG Shool</span>
+                    <h3>The amazing girls that ESIG has</h3>
+                    <p>One of the beautiful girls at ESIG school</p>
+                    <small>1 day ago</small>
+                </div>
+            </div>
+        </section>
+        <a href="news.html"><button>More News </button></a>
+        <!-- Gallery Section with Pictures and Videos -->
+        <section id="gallery" class="section">
+            <div class="section-header">
+                <h2>School Gallery</h2>
+                <p>Explore photos and videos from different schools</p>
+            </div>
+            
+            <div class="gallery-tabs">
+                <button class="gallery-tab active" onclick="switchGalleryTab('pictures')">Pictures</button>
+                <button class="gallery-tab" onclick="switchGalleryTab('videos')">Videos</button>
+            </div>
+            
+            <!-- Pictures Gallery -->
+            <div id="pictures-gallery" class="gallery-content active">
+                <div class="gallery-grid">
+                    <div class="gallery-item" onclick="openModal('img/esig/boy (3).webp', 'Science Lab - G.S St. Joseph')">
+                        <img src="img/esig/boy (3).webp" alt="Gallery">
+                        <div class="gallery-overlay">
+                            <h4>Student</h4>
+                            <p>ESIG</p>
+                        </div>
+                    </div>
+                    <div class="gallery-item" onclick="openModal('', 'Sports Day - E.S.T. Rubavu')">
+                        <img src="img/art nyundo/girl (3).heic" alt="Gallery">
+                        <div class="gallery-overlay">
+                            <h4>Student</h4>
+                            <p>Art Nyundo</p>
+                        </div>
+                    </div>
+                    <div class="gallery-item" onclick="openModal('https://picsum.photos/seed/gallery3/800/600', 'Cultural Event - APAPER School')">
+                        <img src="img/essa/girl (1).jpg" alt="Gallery">
+                        <div class="gallery-overlay">
+                            <h4>Student</h4>
+                            <p>ESTG</p>
+                        </div>
+                    </div>
+                    <div class="gallery-item" onclick="openModal('https://picsum.photos/seed/gallery4/800/600', 'Graduation - College St. Andre')">
+                        <img src="img/lycee nyundo/girl (3).webp" alt="Gallery">
+                        <div class="gallery-overlay">
+                            <h4>Student</h4>
+                            <p>Lycee de Nyundo</p>
+                        </div>
+                    </div>
+                    <div class="gallery-item" onclick="openModal('https://picsum.photos/seed/gallery5/800/600', 'Library - G.S St. Joseph')">
+                        <img src="img/gass/aerg (3).jpg" alt="Gallery">
+                        <div class="gallery-overlay">
+                            <h4>AERGE</h4>
+                            <p>GASS</p>
+                        </div>
+                    </div>
+                    <div class="gallery-item" onclick="openModal('https://picsum.photos/seed/gallery6/800/600', 'Computer Lab - E.S.T. Rubavu')">
+                        <img src="img/essa/girl (3).jpg" alt="Gallery">
+                        <div class="gallery-overlay">
+                            <h4>T-Show</h4>
+                            <p>ESG</p>
+                        </div>
+                    <div class="gallery-item" onclick="openModal('')">
+                        <img src="img/essa/girl (3).jpg" alt="Gallery">
+                        <div class="gallery-overlay">
+                            <h4>Computer Lab</h4>
+                            <p>E.S.T. Rubavu</p>
+                        </div>
+                    <div class="gallery-item" onclick="openModal('https://picsum.photos/seed/gallery6/800/600', 'Computer Lab - E.S.T. Rubavu')">
+                        <img src="img/essa/girl (3).jpg" alt="Gallery">
+                        <div class="gallery-overlay">
+                            <h4>Computer Lab</h4>
+                            <p>E.S.T. Rubavu</p>
+                        </div>
+
+            <!-- Videos Gallery -->
+            <div id="videos-gallery" class="gallery-content">
+                <div class="video-grid">
+                    <div class="video-card">
+                        <div style="position: relative;">
+                            <img src="https://picsum.photos/seed/video1/400/200" alt="Video" class="video-thumbnail">
+                            <div class="play-btn" onclick="playVideo('video1')">
+                                <i class="fas fa-play"></i>
+                            </div>
+                        </div>
+                        <div class="video-info">
+                            <h4>School Sports Tournament</h4>
+                            <p>📍 G.S St. Joseph</p>
+                            <p>Annual inter-school basketball championship highlights</p>
+                        </div>
+                    </div>
+                    <div class="video-card">
+                        <div style="position: relative;">
+                            <img src="https://picsum.photos/seed/video2/400/200" alt="Video" class="video-thumbnail">
+                            <div class="play-btn" onclick="playVideo('video2')">
+                                <i class="fas fa-play"></i>
+                            </div>
+                        </div>
+                        <div class="video-info">
+                            <h4>Science Fair Exhibition</h4>
+                            <p>📍 E.S.T. Rubavu</p>
+                            <p>Students showcase innovative science projects</p>
+                        </div>
+                    </div>
+                    <div class="video-card">
+                        <div style="position: relative;">
+                            <img src="https://picsum.photos/seed/video3/400/200" alt="Video" class="video-thumbnail">
+                            <div class="play-btn" onclick="playVideo('video3')">
+                                <i class="fas fa-play"></i>
+                            </div>
+                        </div>
+                        <div class="video-info">
+                            <h4>Cultural Festival Performance</h4>
+                            <p>📍 APAPER School</p>
+                            <p>Traditional dance and music showcase</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Stars Comparison Section - Girls vs Boys -->
+        <section id="comparison" class="section">
+            <div class="section-header">
+                <h2>School Stars Comparison</h2>
+                <p>Vote for your favorite girls and boys from different schools</p>
+            </div>
+            
+            <div class="comparison-container">
+                <div class="comparison-header">
+                    <button class="comparison-btn active" onclick="switchComparison('girls')">Girls</button>
+                    <button class="comparison-btn" onclick="switchComparison('boys')">Boys</button>
+                </div>
+                
+                <!-- Girls Comparison -->
+                <div id="girls-comparison" class="comparison-content">
+                    <div class="comparison-grid">
+                        <div class="profile-card">
+                            <img src="img/estg/491105035_17946188720969520_8557415600657850028_n (1).webp" alt="Student" class="profile-img">
+                            <h3>Ineza Samuella</h3>
+                            <p>ESTG TSS</p>
+                            <p><i class="fas fa-heart"></i> 245 votes</p>
+                            <button class="vote-btn" onclick="vote('Sarah')">Vote</button>
+                        </div>
+                        <div class="profile-card">
+                            <img src="img/lycee nyundo/girl (5).webp" alt="Student" class="profile-img">
+                            <h3>Benette</h3>
+                            <p>Lycee de Nyundo</p>
+                            <p><i class="fas fa-heart"></i> 189 votes</p>
+                            <button class="vote-btn" onclick="vote('Grace')">Vote</button>
+                        </div>
+                        <div class="profile-card">
+                            <img src="img/lycee nyundo/girl (1).webp" alt="Student" class="profile-img">
+                            <h3>M-Hania</h3>
+                            <p>GASS School</p>
+                            <p><i class="fas fa-heart"></i> 167 votes</p>
+                            <button class="vote-btn" onclick="vote('Alice')">Vote</button>
+                        </div>
+                        <div class="profile-card">
+                            <img src="img/art nyundo/girl (4).heic" alt="Student" class="profile-img">
+                            <h3>Alice Umwiza</h3>
+                            <p>Art Nyundo</p>
+                            <p><i class="fas fa-heart"></i> 142 votes</p>
+                            <button class="vote-btn" onclick="vote('Chantal')">Vote</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Boys Comparison -->
+                <div id="boys-comparison" class="comparison-content" style="display: none;">
+                    <div class="comparison-grid">
+                        <div class="profile-card">
+                            <img src="https://picsum.photos/seed/boy1/150/150" alt="Student" class="profile-img">
+                            <h3>Acro coder</h3>
+                            <p>ESTG TSS</p>
+                            <p><i class="fas fa-heart"></i> 238 votes</p>
+                            <button class="vote-btn" onclick="vote('James')">Vote</button>
+                        </div>
+                        <div class="profile-card">
+                            <img src="img/gass/boy (1).heic" alt="Student" class="profile-img">
+                            <h3>Eric Niyonzima</h3>
+                            <p>GASS School</p>
+                            <p><i class="fas fa-heart"></i> 195 votes</p>
+                            <button class="vote-btn" onclick="vote('Eric')">Vote</button>
+                        </div>
+                        <div class="profile-card">
+                            <img src="https://picsum.photos/seed/boy3/150/150" alt="Student" class="profile-img">
+                            <h3>Peter Mugabo</h3>
+                            <p>College Inyemeramihigo</p>
+                            <p><i class="fas fa-heart"></i> 171 votes</p>
+                            <button class="vote-btn" onclick="vote('Peter')">Vote</button>
+                        </div>
+                        <div class="profile-card">
+                            <img src="img/umubano/boy (3).webp" alt="Student" class="profile-img">
+                            <h3>Samuel Ndayisenga</h3>
+                            <p>Umubano School</p>
+                            <p><i class="fas fa-heart"></i> 156 votes</p>
+                            <button class="vote-btn" onclick="vote('Samuel')">Vote</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Academic Performance - Top Students -->
+        <section id="performance" class="section">
+            <div class="section-header">
+                <h2>Top Academic Performers</h2>
+                <p>Students with the highest marks across all schools</p>
+            </div>
+            <div class="top-students-grid">
+                <div class="student-card">
+                    <div class="student-rank">1</div>
+                    <img src="img/estg/🤟Chasing fun😂 and creating 👋my legacy👌 (1).webp" alt="Student" class="student-avatar">
+                    <div class="student-info">
+                        <h3>Niyibikoze Frank</h3>
+                        <p class="student-school">ESTG TSS</p>
+                        <p class="student-school">Software development</p>
+                        <p class="student-score">Average: 98.5%</p>
+                    </div>
+                </div>
+                <div class="student-card">
+                    <div class="student-rank">2</div>
+                    <img src="https://picsum.photos/seed/student2/80/80" alt="Student" class="student-avatar">
+                    <div class="student-info">
+                        <h3>John Mugisha</h3>
+                        <p class="student-school">GASS Shool</p>
+                        <p class="student-score">Average: 97.2%</p>
+                    </div>
+                </div>
+                <div class="student-card">
+                    <div class="student-rank">3</div>
+                    <img src="https://picsum.photos/seed/student3/80/80" alt="Student" class="student-avatar">
+                    <div class="student-info">
+                        <h3>Grace Mukamana</h3>
+                        <p class="student-school">ESG School</p>
+                        <p class="student-score">Average: 96.8%</p>
+                    </div>
+                </div>
+                <div class="student-card">
+                    <div class="student-rank">4</div>
+                    <img src="https://picsum.photos/seed/student4/80/80" alt="Student" class="student-avatar">
+                    <div class="student-info">
+                        <h3>Ishimwe Shadadi</h3>
+                        <p class="student-school">College batiste</p>
+                        <p class="student-school">Software development</p>
+                        <p class="student-score">Average: 95.5%</p>
+                    </div>
+                </div>
+                <div class="student-card">
+                    <div class="student-rank">5</div>
+                    <img src="img/lycee nyundo/girl (4).jpg" alt="Student" class="student-avatar">
+                    <div class="student-info">
+                        <h3>Yusra Uwase</h3>
+                        <p class="student-school">Lycee de nyundo</p>
+                        <p class="student-school">LFK....</p>
+                        <p class="student-score">Average: 94.3%</p>
+                    </div>
+                </div>
+                <div class="student-card">
+                    <div class="student-rank">6</div>
+                    <img src="https://picsum.photos/seed/student6/80/80" alt="Student" class="student-avatar">
+                    <div class="student-info">
+                        <h3>Peter Mugabo</h3>
+                        <p class="student-school">G.S St. Joseph</p>
+                        <p class="student-score">Average: 93.7%</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+            <!-- School Directory Button -->
+    <div class="school-directory-trigger" onclick="toggleSchoolDirectory()">
+        <i class="fas fa-school"></i>
+    </div>
+
+    <!-- School Directory Panel -->
+    <div class="school-directory" id="schoolDirectory">
+        <div class="directory-header">
+            <h3>All Schools</h3>
+            <button class="directory-close" onclick="toggleSchoolDirectory()">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        <div class="school-list">
+            <a href="#essa" class="school-item" onclick="scrollToSchool('essa')">
+                <div class="school-icon">
+                    <i class="fas fa-flask"></i>
+                </div>
+                <div class="school-info">
+                    <h4>ESSA School</h4>
+                    <p>Excellence in Science and Sports</p>
+                </div>
+            </a>
+            <a href="#estg" class="school-item" onclick="scrollToSchool('estg')">
+                <div class="school-icon">
+                    <i class="fas fa-tools"></i>
+                </div>
+                <div class="school-info">
+                    <h4>ESTG</h4>
+                    <p>Ecole Secondaire Technique de Gisenyi</p>
+                </div>
+            </a>
+            <a href="news.html" class="school-item" onclick="scrollToSchool('gass')">
+                <div class="school-icon">
+                    <i class="fas fa-church"></i>
+                </div>
+                <div class="school-info">
+                    <h4>GASS</h4>
+                    <p>Gisenyi Adventist Secondary School</p>
+                </div>
+            </a>
+            <a href="#gs-st-joseph" class="school-item" onclick="scrollToSchool('gs-st-joseph')">
+                <div class="school-icon">
+                    <i class="fas fa-graduation-cap"></i>
+                </div>
+                <div class="school-info">
+                    <h4>G.S St. Joseph</h4>
+                    <p>General Secondary School</p>
+                </div>
+            </a>
+            <a href="#est-rubavu" class="school-item" onclick="scrollToSchool('est-rubavu')">
+                <div class="school-icon">
+                    <i class="fas fa-school"></i>
+                </div>
+                <div class="school-info">
+                    <h4>E.S.T. Rubavu</h4>
+                    <p>Ecole Secondaire Technique de Rubavu</p>
+                </div>
+            </a>
+            <a href="#apaper" class="school-item" onclick="scrollToSchool('apaper')">
+                <div class="school-icon">
+                    <i class="fas fa-book"></i>
+                </div>
+                <div class="school-info">
+                    <h4>APAPER School</h4>
+                    <p>Academic Excellence Center</p>
+                </div>
+            </a>
+            <a href="#college-st-andre" class="school-item" onclick="scrollToSchool('college-st-andre')">
+                <div class="school-icon">
+                    <i class="fas fa-university"></i>
+                </div>
+                <div class="school-info">
+                    <h4>College St. Andre</h4>
+                    <p>Advanced Learning Institute</p>
+                </div>
+            </a>
+            <a href="#lycee-rubavu" class="school-item" onclick="scrollToSchool('lycee-rubavu')">
+                <div class="school-icon">
+                    <i class="fas fa-language"></i>
+                </div>
+                <div class="school-info">
+                    <h4>Lycée de Rubavu</h4>
+                    <p>French Language School</p>
+                </div>
+            </a>
+            <a href="#lycee-rubavu" class="school-item" onclick="scrollToSchool('lycee-rubavu')">
+                <div class="school-icon">
+                    <i class="fas fa-language"></i>
+                </div>
+                <div class="school-info">
+                    <h4>Saint Mathieu</h4>
+                    <p>French Language School</p>
+                </div>
+            </a>
+            <a href="#lycee-rubavu" class="school-item" onclick="scrollToSchool('lycee-rubavu')">
+                <div class="school-icon">
+                    <i class="fas fa-language"></i>
+                </div>
+                <div class="school-info">
+                    <h4>College Inyemeramihigo</h4>
+                    <p>French Language School</p>
+                </div>
+            </a>
+        </div>
+    </div>
+
+        <!-- Talents Section with Videos -->
+        <section id="talents" class="section">
+            <div class="section-header">
+                <h2>Student Talents Showcase</h2>
+                <p>Discover the amazing talents of students across Rubavu</p>
+            </div>
+            <div class="talent-grid">
+                <div class="talent-card">
+                    <div style="position: relative;">
+                        <img src="https://picsum.photos/seed/talent1/400/250" alt="Talent" class="talent-thumbnail">
+                        <div class="play-btn" onclick="playVideo('talent1')">
+                            <i class="fas fa-play"></i>
+                        </div>
+                    </div>
+                    <div class="talent-info">
+                        <h4>Dance Performance</h4>
+                        <p>🎭 Sarah Uwimana - G.S St. Joseph</p>
+                        <p>Traditional Rwandan dance showcase</p>
+                    </div>
+                </div>
+                <div class="talent-card">
+                    <div style="position: relative;">
+                        <img src="https://picsum.photos/seed/talent2/400/250" alt="Talent" class="talent-thumbnail">
+                        <div class="play-btn" onclick="playVideo('talent2')">
+                            <i class="fas fa-play"></i>
+                        </div>
+                    </div>
+                    <div class="talent-info">
+                        <h4>Music Band</h4>
+                        <p>🎵 The Melodies - E.S.T. Rubavu</p>
+                        <p>Original composition performance</p>
+                    </div>
+                </div>
+                <div class="talent-card">
+                    <div style="position: relative;">
+                        <img src="https://picsum.photos/seed/talent3/400/250" alt="Talent" class="talent-thumbnail">
+                        <div class="play-btn" onclick="playVideo('talent3')">
+                            <i class="fas fa-play"></i>
+                        </div>
+                    </div>
+                    <div class="talent-info">
+                        <h4>Art Exhibition</h4>
+                        <p>🎨 Grace Mukamana - APAPER School</p>
+                        <p>Digital art and painting showcase</p>
+                    </div>
+                </div>
+                <div class="talent-card">
+                    <div style="position: relative;">
+                        <img src="https://picsum.photos/seed/talent4/400/250" alt="Talent" class="talent-thumbnail">
+                        <div class="play-btn" onclick="playVideo('talent4')">
+                            <i class="fas fa-play"></i>
+                        </div>
+                    </div>
+                    <div class="talent-info">
+                        <h4>Poetry Recitation</h4>
+                        <p>📝 Eric Niyonzima - College St. Andre</p>
+                        <p>Original poetry performance</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Events Section with Videos, Time and Location -->
+        <section id="events" class="section">
+            <div class="section-header">
+                <h2>Upcoming Events</h2>
+                <p>Don't miss out on important school events</p>
+            </div>
+            <div class="event-grid">
+                <div class="event-card">
+                    <div style="position: relative;">
+                        <img src="https://picsum.photos/seed/event1/400/200" alt="Event" class="event-video">
+                        <div class="play-btn" onclick="playVideo('event1')">
+                            <i class="fas fa-play"></i>
+                        </div>
+                    </div>
+                    <div class="event-details">
+                        <div class="event-date">
+                            <i class="fas fa-calendar"></i>
+                            December 15, 2024 at 2:00 PM
+                        </div>
+                        <div class="event-location">
+                            <i class="fas fa-map-marker-alt"></i>
+                            G.S St. Joseph, Main Hall
+                        </div>
+                        <h3 class="event-title">Inter-School Debate Competition</h3>
+                        <p>Join us for an exciting debate competition featuring students from all 20 schools. Topics include education reform, environmental protection, and technology in schools.</p>
+                    </div>
+                </div>
+                <div class="event-card">
+                    <div style="position: relative;">
+                        <img src="https://picsum.photos/seed/event2/400/200" alt="Event" class="event-video">
+                        <div class="play-btn" onclick="playVideo('event2')">
+                            <i class="fas fa-play"></i>
+                        </div>
+                    </div>
+                    <div class="event-details">
+                        <div class="event-date">
+                            <i class="fas fa-calendar"></i>
+                            December 20, 2024 at 9:00 AM
+                        </div>
+                        <div class="event-location">
+                            <i class="fas fa-map-marker-alt"></i>
+                            E.S.T. Rubavu, Science Building
+                        </div>
+                        <h3 class="event-title">Science Fair Exhibition</h3>
+                        <p>Showcase your innovative science projects and win amazing prizes. Categories include physics, chemistry, biology, and environmental science.</p>
+                    </div>
+                </div>
+                <div class="event-card">
+                    <div style="position: relative;">
+                        <img src="https://picsum.photos/seed/event3/400/200" alt="Event" class="event-video">
+                        <div class="play-btn" onclick="playVideo('event3')">
+                            <i class="fas fa-play"></i>
+                        </div>
+                    </div>
+                    <div class="event-details">
+                        <div class="event-date">
+                            <i class="fas fa-calendar"></i>
+                            January 5, 2025 at 10:00 AM
+                        </div>
+                        <div class="event-location">
+                            <i class="fas fa-map-marker-alt"></i>
+                            APAPER School, Sports Ground
+                        </div>
+                        <h3 class="event-title">Sports Tournament</h3>
+                        <p>Basketball, football, and volleyball competitions across all schools. Registration deadline is December 25, 2024.</p>
+                    </div>
+                </div>
+                <div class="event-card">
+                    <div style="position: relative;">
+                        <img src="https://picsum.photos/seed/event4/400/200" alt="Event" class="event-video">
+                        <div class="play-btn" onclick="playVideo('event4')">
+                            <i class="fas fa-play"></i>
+                        </div>
+                    </div>
+                    <div class="event-details">
+                        <div class="event-date">
+                            <i class="fas fa-calendar"></i>
+                            January 10, 2025 at 3:00 PM
+                        </div>
+                        <div class="event-location">
+                            <i class="fas fa-map-marker-alt"></i>
+                            College St. Andre, Auditorium
+                        </div>
+                        <h3 class="event-title">Cultural Festival</h3>
+                        <p>Celebrate diversity with music, dance, and cultural performances from all 20 schools in Rubavu district.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+         <div class="school-directory" id="schoolDirectory">
+        <div class="directory-header">
+            <h3>All Schools</h3>
+            <button class="directory-close" onclick="toggleSchoolDirectory()">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        <div class="school-list">
+            <a href="#essa" class="school-item" onclick="scrollToSchool('essa')">
+                <div class="school-icon">
+                    <i class="fas fa-flask"></i>
+                </div>
+                <div class="school-info">
+                    <h4>ESSA School</h4>
+                    <p>Excellence in Science and Sports</p>
+                </div>
+            </a>
+            <a href="#estg" class="school-item" onclick="scrollToSchool('estg')">
+                <div class="school-icon">
+                    <i class="fas fa-tools"></i>
+                </div>
+                <div class="school-info">
+                    <h4>ESTG</h4>
+                    <p>Ecole Secondaire Technique de Gisenyi</p>
+                </div>
+            </a>
+            <a href="news.html" class="school-item" onclick="scrollToSchool('gass')">
+                <div class="school-icon">
+                    <i class="fas fa-church"></i>
+                </div>
+                <div class="school-info">
+                    <h4>GASS</h4>
+                    <p>Gisenyi Adventist Secondary School</p>
+                </div>
+            </a>
+            <a href="#gs-st-joseph" class="school-item" onclick="scrollToSchool('gs-st-joseph')">
+                <div class="school-icon">
+                    <i class="fas fa-graduation-cap"></i>
+                </div>
+                <div class="school-info">
+                    <h4>G.S St. Joseph</h4>
+                    <p>General Secondary School</p>
+                </div>
+            </a>
+            <a href="#est-rubavu" class="school-item" onclick="scrollToSchool('est-rubavu')">
+                <div class="school-icon">
+                    <i class="fas fa-school"></i>
+                </div>
+                <div class="school-info">
+                    <h4>E.S.T. Rubavu</h4>
+                    <p>Ecole Secondaire Technique de Rubavu</p>
+                </div>
+            </a>
+            <a href="#apaper" class="school-item" onclick="scrollToSchool('apaper')">
+                <div class="school-icon">
+                    <i class="fas fa-book"></i>
+                </div>
+                <div class="school-info">
+                    <h4>APAPER School</h4>
+                    <p>Academic Excellence Center</p>
+                </div>
+            </a>
+            <a href="#college-st-andre" class="school-item" onclick="scrollToSchool('college-st-andre')">
+                <div class="school-icon">
+                    <i class="fas fa-university"></i>
+                </div>
+                <div class="school-info">
+                    <h4>College St. Andre</h4>
+                    <p>Advanced Learning Institute</p>
+                </div>
+            </a>
+            <a href="#lycee-rubavu" class="school-item" onclick="scrollToSchool('lycee-rubavu')">
+                <div class="school-icon">
+                    <i class="fas fa-language"></i>
+                </div>
+                <div class="school-info">
+                    <h4>Lycée de Rubavu</h4>
+                    <p>French Language School</p>
+                </div>
+            </a>
+        </div>
+    </div>
+        <!-- Contact Section - Smaller -->
+        <section id="contact" class="section contact-section">
+            <div class="section-header">
+                <h2>Get In Touch</h2>
+                <p>Share your story or report news from your school</p>
+            </div>
+            <div class="card contact-form">
+                <form onsubmit="handleSubmit(event)">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="name">Your Name</label>
+                            <input type="text" id="name" name="name" required placeholder="Enter your full name">
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Email Address</label>
+                            <input type="email" id="email" name="email" required placeholder="your.email@example.com">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="school">Your School</label>
+                        <input type="text" id="school" name="school" required placeholder="Enter your school name">
+                    </div>
+                    <div class="form-group">
+                        <label for="message">Message</label>
+                        <textarea id="message" name="message" rows="4" required placeholder="Share your news, story, or feedback..."></textarea>
+                    </div>
+                    <button type="submit" class="submit-btn">Send Message</button>
+                </form>
+            </div>
+            
+            <!-- Social Media Links -->
+            <div class="social-links">
+                <a href="#" class="social-link social-facebook" title="Facebook">
+                    <i class="fab fa-facebook-f"></i>
+                </a>
+                <a href="#" class="social-link social-instagram" title="Instagram">
+                    <i class="fab fa-instagram"></i>
+                </a>
+                <a href="#" class="social-link social-twitter" title="Twitter">
+                    <i class="fab fa-twitter"></i>
+                </a>
+                <a href="#" class="social-link social-whatsapp" title="WhatsApp">
+                    <i class="fab fa-whatsapp"></i>
+                </a>
+            </div>
+        </section>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <h3>Rubavu Students Hub</h3>
+        <p>Connecting 20 Schools, Empowering Thousands of Students</p>
+        <p>&copy; 2024 Rubavu Students Hub. All rights reserved.</p>
+    </footer>
+
+    <!-- Modal for Gallery -->
+    <div id="imageModal" class="modal">
+        <div class="modal-content">
+            <button class="modal-close" onclick="closeModal()">&times;</button>
+            <img id="modalImage" src="" alt="Full size image" style="width: 100%; border-radius: 10px;">
+            <h3 id="modalTitle" style="margin-top: 1rem;"></h3>
+            <p id="modalDescription"></p>
+        </div>
+    </div>
+
+    <!-- Toast Notification -->
+    <div id="toast" class="toast">
+        <span id="toastMessage"></span>
+    </div>
+
+    <script>
+        // Theme Toggle
+        function toggleTheme() {
+            const body = document.body;
+            const themeIcon = document.getElementById('themeIcon');
+            
+            body.classList.toggle('dark-mode');
+            
+            if (body.classList.contains('dark-mode')) {
+                themeIcon.classList.remove('fa-moon');
+                themeIcon.classList.add('fa-sun');
+                localStorage.setItem('theme', 'dark');
+            } else {
+                themeIcon.classList.remove('fa-sun');
+                themeIcon.classList.add('fa-moon');
+                localStorage.setItem('theme', 'light');
+            }
+        }
+
+        // Load saved theme
+        window.addEventListener('DOMContentLoaded', () => {
+            const savedTheme = localStorage.getItem('theme');
+            if (savedTheme === 'dark') {
+                document.body.classList.add('dark-mode');
+                document.getElementById('themeIcon').classList.remove('fa-moon');
+                document.getElementById('themeIcon').classList.add('fa-sun');
+            }
+        });
+
+        // Gallery Tab Switching
+        function switchGalleryTab(tab) {
+            const tabs = document.querySelectorAll('.gallery-tab');
+            const contents = document.querySelectorAll('.gallery-content');
+            
+            tabs.forEach(t => t.classList.remove('active'));
+            contents.forEach(c => c.classList.remove('active'));
+            
+            if (tab === 'pictures') {
+                tabs[0].classList.add('active');
+                document.getElementById('pictures-gallery').classList.add('active');
+            } else {
+                tabs[1].classList.add('active');
+                document.getElementById('videos-gallery').classList.add('active');
+            }
+        }
+
+        // Comparison Tab Switching
+        function switchComparison(type) {
+            const buttons = document.querySelectorAll('.comparison-btn');
+            const girlsComparison = document.getElementById('girls-comparison');
+            const boysComparison = document.getElementById('boys-comparison');
+            
+            buttons.forEach(btn => btn.classList.remove('active'));
+            
+            if (type === 'girls') {
+                buttons[0].classList.add('active');
+                girlsComparison.style.display = 'block';
+                boysComparison.style.display = 'none';
+            } else {
+                buttons[1].classList.add('active');
+                girlsComparison.style.display = 'none';
+                boysComparison.style.display = 'block';
+            }
+        }
+
+        // Modal Functions
+        function openModal(imageSrc, title) {
+            const modal = document.getElementById('imageModal');
+            const modalImage = document.getElementById('modalImage');
+            const modalTitle = document.getElementById('modalTitle');
+            
+            modalImage.src = imageSrc;
+            modalTitle.textContent = title;
+            modal.classList.add('active');
+        }
+
+        function closeModal() {
+            const modal = document.getElementById('imageModal');
+            modal.classList.remove('active');
+        }
+
+        // Close modal on outside click
+        document.getElementById('imageModal').addEventListener('click', (e) => {
+            if (e.target === e.currentTarget) {
+                closeModal();
+            }
+        });
+
+        // Vote Function
+        function vote(studentName) {
+            showToast(`Vote recorded for ${studentName}!`);
+            // Update vote count (simulation)
+            event.target.previousElementSibling.innerHTML = 
+                `<i class="fas fa-heart"></i> ${Math.floor(Math.random() * 50) + 200} votes`;
+        }
+
+        // Play Video (simulation)
+        function playVideo(videoId) {
+            showToast(`Playing video: ${videoId}`);
+        }
+
+        // Form Submit
+        function handleSubmit(event) {
+            event.preventDefault();
+            
+            const formData = new FormData(event.target);
+            const data = Object.fromEntries(formData);
+            
+            showToast('Message sent successfully! We\'ll get back to you soon.');
+            event.target.reset();
+        }
+
+        // School Directory Toggle
+        function toggleSchoolDirectory() {
+            const directory = document.getElementById('schoolDirectory');
+            directory.classList.toggle('active');
+        }
+
+        // Toast Notification
+        function showToast(message) {
+            const toast = document.getElementById('toast');
+            const toastMessage = document.getElementById('toastMessage');
+            
+            toastMessage.textContent = message;
+            toast.classList.add('show');
+            
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 3000);
+        }
+
+        // Smooth Scrolling
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Intersection Observer for Animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+
+        // Observe all cards
+        document.querySelectorAll('.card').forEach(card => {
+            card.style.opacity = '0';
+            card.style.transform = 'translateY(20px)';
+            card.style.transition = 'opacity 0.5s, transform 0.5s';
+            observer.observe(card);
+        });
+
+        // Dynamic News Update (simulation)
+        setInterval(() => {
+            const newsItems = document.querySelectorAll('.news-card small');
+            newsItems.forEach(item => {
+                const timeText = item.textContent;
+                if (timeText.includes('hours')) {
+                    const hours = parseInt(timeText) + 1;
+                    item.textContent = `${hours} hours ago`;
+                }
+            });
+        }, 3600000); // Update every hour
+
+        // Add keyboard navigation
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                closeModal();
+            }
+        });
+
+        // Initialize page
+        window.addEventListener('load', () => {
+            showToast('Welcome to Rubavu Students Hub! 🎓');
+        });
+    </script>
+</body>
+</html>
